@@ -156,6 +156,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\core\VertexArray.cpp" />
+    <ClCompile Include="src\core\VertexBuffer.cpp" />
+    <ClCompile Include="src\Util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\VertexArray.h" />
+    <ClInclude Include="src\core\VertexBuffer.h" />
+    <ClInclude Include="src\core\VertexBufferLayout.h" />
+    <ClInclude Include="src\Util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\assets\shaders\rect.frag" />
+    <None Include="src\assets\shaders\rect.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
