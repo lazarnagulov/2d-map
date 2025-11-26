@@ -3,8 +3,7 @@
 
 #include "core/VertexArray.h"
 #include "core/VertexBuffer.h"
-
-#include "Util.h"
+#include "core/Shader.h"
 
 int main(void)
 {
@@ -43,8 +42,8 @@ int main(void)
     layout.PushFloat(3);
     va.AddBuffer(vb, layout);
 
-    unsigned int rectShader = createShader("./src/assets/shaders/rect.vert", "./src/assets/shaders/rect.frag");
-    glUseProgram(rectShader);
+    Shader shader("./src/assets/shaders/rect.vert", "./src/assets/shaders/rect.frag");
+    shader.Bind();
 
     while (!glfwWindowShouldClose(window))
     {
