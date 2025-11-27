@@ -5,10 +5,12 @@
 #include "core/VertexBuffer.h"
 #include "core/Shader.h"
 #include "core/Texture.h"
+#include "core/Input.h"
 
 int main(void)
 {
     GLFWwindow* window;
+    Input manager;
 
     if (!glfwInit())
         return -1;
@@ -32,6 +34,7 @@ int main(void)
     }
 
     glfwMakeContextCurrent(window);
+
     if (glewInit() != GLEW_OK)
         return -1;
     glEnable(GL_BLEND);
