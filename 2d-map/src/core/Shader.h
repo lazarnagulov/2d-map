@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <string>
 #include <unordered_map>
 
@@ -10,6 +11,8 @@ public:
 	void Bind() const;
 	void Unbind() const;
 	void SetUniform1i(const std::string& name, int value);
+	void SetUniformMat4(const std::string& name, const glm::mat4& value);
+
 private:
 	unsigned int CompileShader(unsigned int type, const std::string& source) const;
 	unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader) const;

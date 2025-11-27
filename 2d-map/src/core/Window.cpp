@@ -28,8 +28,9 @@ void Window::InitGLFW() {
 void Window::CreateFullscreenWindow() {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-
-    m_Window = glfwCreateWindow(mode->width, mode->height, "2D map", monitor, nullptr);
+    m_Width = mode->width;
+    m_Height = mode->height;
+    m_Window = glfwCreateWindow(m_Width, m_Height, "2D map", monitor, nullptr);
 
     if (!m_Window) {
         std::cerr << "Window creation failed\n";
