@@ -24,7 +24,7 @@ void Shader::Unbind() const {
     glUseProgram(0);
 }
 
-unsigned int Shader::CompileShader(unsigned int type, const std::string& source) {
+unsigned int Shader::CompileShader(unsigned int type, const std::string& source) const {
     unsigned int id = glCreateShader(type);
     const char* src = source.c_str();
     glShaderSource(id, 1, &src, nullptr);
@@ -47,7 +47,7 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
     return id;
 }
 
-unsigned int Shader::CreateShader(const std::string& vertexShader, const std::string& fragmentShader) {
+unsigned int Shader::CreateShader(const std::string& vertexShader, const std::string& fragmentShader) const {
     unsigned int program = glCreateProgram();
     unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
     unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
@@ -64,7 +64,7 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 }
 
 
-std::string Shader::ParseShader(const std::string& path) {
+std::string Shader::ParseShader(const std::string& path) const {
     std::ifstream file(path);
     if (!file.is_open())
         std::cout << "Failed to open shader file: " + path << std::endl;
@@ -72,4 +72,17 @@ std::string Shader::ParseShader(const std::string& path) {
     std::stringstream buffer;
     buffer << file.rdbuf();
     return buffer.str();  
+}
+
+int Shader::GetUniformLocation(const std::string& name) {
+    if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
+        return m_UniformLocationCache[name];
+
+    int location = glGetUniformLocation(m_RendererId, name.c_str());
+    m_UniformLocationCache[name] = location;
+    return location;
+}
+
+void Shader::SetUniform1i(const std::string& name, int value) {
+    glUniform1i(GetUniformLocation(name), value);
 }

@@ -4,6 +4,7 @@
 #include "core/VertexArray.h"
 #include "core/VertexBuffer.h"
 #include "core/Shader.h"
+#include "core/Texture.h"
 
 int main(void)
 {
@@ -17,10 +18,10 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     float verticesRect[] = {
-        -0.2f,  0.2f,    1.0f, 0.0f, 0.0f,   
-        -0.2f, -0.2f,    0.0f, 1.0f, 0.0f,   
-         0.2f, -0.2f,    0.0f, 0.0f, 1.0f,  
-         0.2f,  0.2f,    1.0f, 1.0f, 0.0f,  
+        -0.2f,  0.2f,    1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+        -0.2f, -0.2f,    0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+         0.2f, -0.2f,    0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+         0.2f,  0.2f,    1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
     };
 
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
@@ -33,17 +34,24 @@ int main(void)
     glfwMakeContextCurrent(window);
     if (glewInit() != GLEW_OK)
         return -1;
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     VertexArray va;
-    VertexBuffer vb(verticesRect, 5 * 4 * sizeof(float));
+    VertexBuffer vb(verticesRect, 7 * 4 * sizeof(float));
     VertexBufferLayout layout;
     layout.PushFloat(2);
     layout.PushFloat(3);
+    layout.PushFloat(2);
     va.AddBuffer(vb, layout);
 
     Shader shader("./src/assets/shaders/rect.vert", "./src/assets/shaders/rect.frag");
     shader.Bind();
+
+    Texture texture("./src/assets/textures/twolegs.png");
+    texture.Bind();
+
+    shader.SetUniform1i("uTex", 0);
 
     while (!glfwWindowShouldClose(window))
     {
