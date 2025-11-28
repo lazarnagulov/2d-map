@@ -11,13 +11,14 @@
 #include "core/Window.h"
 #include "core/Camera.h"
 #include "core/FrameLimiter.h"
+#include "app/Application.h"
 
 int main(void)
 {
-    Input input;
-    Window window(input);
-    int screenWidth = window.GetWidth();
-    int screenHeight = window.GetHeight();
+    Application app;
+
+    int screenWidth = app.GetWindow().GetWidth();
+    int screenHeight = app.GetWindow().GetHeight();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -65,7 +66,7 @@ int main(void)
 
     FrameLimiter frameLimiter(75);
 
-    while (!window.ShouldClose())
+    while (!app.GetWindow().ShouldClose())
     {
         if (frameLimiter.ShouldRender())
         {
@@ -73,7 +74,7 @@ int main(void)
             glViewport(0, 0, screenWidth, screenHeight);
             glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-            window.Update();
+            app.GetWindow().Update();
         }
     }
 
