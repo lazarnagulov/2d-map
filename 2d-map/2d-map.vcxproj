@@ -155,7 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\app\MapRenderer.cpp" />
+    <ClCompile Include="src\app\AppState.cpp" />
+    <ClCompile Include="src\app\MeasureMode.cpp" />
+    <ClCompile Include="src\app\WalkMode.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
     <ClCompile Include="src\core\FrameLimiter.cpp" />
     <ClCompile Include="src\core\Input.cpp" />
@@ -169,7 +171,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\AppState.h" />
-    <ClInclude Include="src\app\MapRenderer.h" />
+    <ClInclude Include="src\app\MeasureMode.h" />
+    <ClInclude Include="src\app\WalkMode.h" />
     <ClInclude Include="src\core\Camera.h" />
     <ClInclude Include="src\core\FrameLimiter.h" />
     <ClInclude Include="src\core\Input.h" />
@@ -761,8 +764,8 @@
     <ClInclude Include="src\vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\assets\shaders\rect.frag" />
-    <None Include="src\assets\shaders\rect.vert" />
+    <None Include="src\assets\shaders\texture.frag" />
+    <None Include="src\assets\shaders\texture.vert" />
     <None Include="src\vendor\glm\.gitignore" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />

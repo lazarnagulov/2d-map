@@ -1,15 +1,27 @@
 #pragma once
+#include "WalkMode.h"
+#include "MeasureMode.h"
 
-#include <list>
+class AppState {
+public:
+    enum class Mode {
+        WALK,
+        MEASURE
+    };
 
-#include "glm/glm.hpp"
+    AppState();
 
-struct AppState {
-    enum Mode { WALK, MEASURE } currentMode;
-    
-    glm::vec2 cameraPos;
-    float walkedDistance;
+    void SwitchMode();
+    inline Mode GetCurrentMode() const { return m_CurrentMode; }
 
-    std::list<glm::vec2> points;
-    float measuredDistance;
+    inline WalkMode& GetWalkMode() { return m_WalkMode; }
+    inline MeasureMode& GetMeasureMode() { return m_MeasureMode; }
+
+    inline const WalkMode& GetWalkMode() const { return m_WalkMode; }
+    inline const MeasureMode& GetMeasureMode() const { return m_MeasureMode; }
+
+private:
+    Mode m_CurrentMode;
+    WalkMode m_WalkMode;
+    MeasureMode m_MeasureMode;
 };
