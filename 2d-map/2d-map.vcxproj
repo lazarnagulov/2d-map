@@ -155,8 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\app\Map.cpp" />
+    <ClCompile Include="src\app\MapRenderer.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
+    <ClCompile Include="src\core\FrameLimiter.cpp" />
     <ClCompile Include="src\core\Input.cpp" />
     <ClCompile Include="src\core\Texture.cpp" />
     <ClCompile Include="src\core\Window.cpp" />
@@ -168,8 +169,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\AppState.h" />
-    <ClInclude Include="src\app\Map.h" />
+    <ClInclude Include="src\app\MapRenderer.h" />
     <ClInclude Include="src\core\Camera.h" />
+    <ClInclude Include="src\core\FrameLimiter.h" />
     <ClInclude Include="src\core\Input.h" />
     <ClInclude Include="src\core\Shader.h" />
     <ClInclude Include="src\core\Texture.h" />
