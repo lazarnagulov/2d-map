@@ -12,6 +12,7 @@ void WalkMode::Update(float deltaTime, uint8_t directions) {
     if (directions & LEFT)  movement.x -= 1.0f;
     if (directions & RIGHT) movement.x += 1.0f;
 
+
     if (glm::length(movement) > 0.0f) {
         movement = glm::normalize(movement);
         glm::vec2 delta = movement * m_MoveSpeed * deltaTime;

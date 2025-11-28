@@ -3,7 +3,7 @@
 
 #include "Window.h"
 
-Window::Window(Input& input) : m_Input(input), m_Window(nullptr) {
+Window::Window(Input& input, IEventListener& listener) : m_Input(input), m_Window(nullptr), m_Listener(listener) {
     InitGLFW();
     CreateFullscreenWindow();
     InitGLEW();
@@ -30,7 +30,7 @@ void Window::CreateFullscreenWindow() {
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     m_Width = mode->width;
     m_Height = mode->height;
-    m_Window = glfwCreateWindow(m_Width, m_Height, "2D map", monitor, nullptr);
+    m_Window = glfwCreateWindow(m_Width, m_Height, "2D map", nullptr, nullptr);
 
     if (!m_Window) {
         std::cerr << "Window creation failed\n";
@@ -42,15 +42,34 @@ void Window::CreateFullscreenWindow() {
 }
 
 void Window::SetupCallbacks() {
-    glfwSetWindowUserPointer(m_Window, &m_Input);
+    glfwSetWindowUserPointer(m_Window, this);
 
     glfwSetKeyCallback(m_Window, [](GLFWwindow* win, int key, int scancode, int action, int mods) {
-        auto* input = static_cast<Input*>(glfwGetWindowUserPointer(win));
-        input->OnKeyEvent(key, action);
+        auto* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
+        window->GetInput().OnKeyEvent(key, action);
 
         if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
             glfwSetWindowShouldClose(win, true);
-        });
+
+        window->m_Listener.OnKey(key, action);
+    });
+
+    glfwSetCursorPosCallback(m_Window, [](GLFWwindow* win, double xpos, double ypos) {
+        auto* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
+
+        window->GetInput().OnMouseMove(xpos, ypos);
+        
+        window->m_Listener.OnMouseMove(xpos, ypos);
+    });
+
+    glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* win, int button, int action, int mods) {
+        auto* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
+
+        window->GetInput().OnMouseButtonEvent(button, action);
+
+        window->m_Listener.OnMouseButton(button, action);
+    });
+
 }
 
 void Window::InitGLEW() {
