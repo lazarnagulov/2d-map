@@ -165,6 +165,7 @@
     <ClCompile Include="src\core\FrameLimiter.cpp" />
     <ClCompile Include="src\core\Input.cpp" />
     <ClCompile Include="src\core\LayerStack.cpp" />
+    <ClCompile Include="src\core\TextRenderer.cpp" />
     <ClCompile Include="src\core\Texture.cpp" />
     <ClCompile Include="src\core\Window.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="src\core\Layer.h" />
     <ClInclude Include="src\core\LayerStack.h" />
     <ClInclude Include="src\core\Shader.h" />
+    <ClInclude Include="src\core\TextRenderer.h" />
     <ClInclude Include="src\core\Texture.h" />
     <ClInclude Include="src\core\VertexArray.h" />
     <ClInclude Include="src\core\VertexBuffer.h" />
@@ -1891,6 +1893,7 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CMakeLists.txt" />
     <Text Include="src\vendor\glm\CMakeLists.txt" />
     <Text Include="src\vendor\glm\glm\CMakeLists.txt" />
   </ItemGroup>
