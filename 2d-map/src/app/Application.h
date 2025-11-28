@@ -1,6 +1,8 @@
 #pragma once
 
 #include "AppState.h"
+#include "MeasureLayer.h"
+#include "WalkLayer.h"
 #include "../core/Window.h"
 #include "../core/LayerStack.h"
 
@@ -17,9 +19,14 @@ public:
 	inline const Window& GetWindow() const { return m_Window; }
 	inline Window& GetWindow() { return m_Window; }
 
+	template<typename T, typename... Args>
+	T& AddLayer(Args&&... args);
+
 private:
 	Input m_Input;
 	Window m_Window;
 	LayerStack m_LayerStack;
+	MeasureLayer& m_MeasureLayer;
+	WalkLayer& m_WalkLayer;
 	AppState m_State;
 };
