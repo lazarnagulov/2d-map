@@ -58,7 +58,7 @@ void Window::SetupCallbacks() {
         auto* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
 
         window->GetInput().OnMouseMove(xpos, ypos);
-
+        
         window->m_Listener.OnMouseMove(xpos, ypos);
     });
 

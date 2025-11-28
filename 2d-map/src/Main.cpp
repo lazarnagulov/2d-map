@@ -74,8 +74,9 @@ int main(void)
             glViewport(0, 0, screenWidth, screenHeight);
             glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-            app.GetWindow().Update();
+            app.Update(frameLimiter.GetDeltaTime());
         }
+
     }
 
     glfwTerminate();

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AppState.h"
 #include "../core/Window.h"
 #include "../core/LayerStack.h"
 
@@ -7,7 +8,8 @@ class Application : public IEventListener {
 public:
 	Application();
 	~Application();
-	
+
+	void Update(float deltaTime);
 	void OnKey(int key, int action) override;
 	void OnMouseMove(double x, double y) override;
 	void OnMouseButton(int button, int action) override;
@@ -19,4 +21,5 @@ private:
 	Input m_Input;
 	Window m_Window;
 	LayerStack m_LayerStack;
+	AppState m_State;
 };

@@ -12,4 +12,5 @@ public:
 
     virtual void OnKey(int key, int action) {}
     virtual void OnMouseButton(int button, int action, double x, double y) {}
+    virtual void OnMouseMove(double x, double y) {}
 };

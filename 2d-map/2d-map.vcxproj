@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="src\app\Application.cpp" />
     <ClCompile Include="src\app\AppState.cpp" />
+    <ClCompile Include="src\app\MeasureLayer.cpp" />
     <ClCompile Include="src\app\MeasureMode.cpp" />
     <ClCompile Include="src\app\WalkLayer.cpp" />
     <ClCompile Include="src\app\WalkMode.cpp" />
@@ -175,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="src\app\Application.h" />
     <ClInclude Include="src\app\AppState.h" />
+    <ClInclude Include="src\app\MeasureLayer.h" />
     <ClInclude Include="src\app\MeasureMode.h" />
     <ClInclude Include="src\app\WalkLayer.h" />
     <ClInclude Include="src\app\WalkMode.h" />
