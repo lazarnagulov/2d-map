@@ -5,6 +5,7 @@
 #include "layers/WalkLayer.h"
 #include "layers/ModeLayer.h"
 
+#include "../core/Camera.h"
 #include "../core/Window.h"
 #include "../core/LayerStack.h"
 
@@ -27,16 +28,16 @@ public:
 	T& AddLayer(Args&&... args);
 private:
 	void InitRenderer();
-	void UpdateProjection();
 	void SyncLayersWithState();
 	template<typename Event>
 	void DispatchToLayers(Event&& eventCallback);
-	void LoadMode();
 private:
 	Input m_Input;
 	Window m_Window;
 	LayerStack m_LayerStack;
 	
+	Camera m_Camera;
+
 	ModeLayer& m_ModeLayer;
 	WalkLayer& m_WalkLayer;
 	MeasureLayer& m_MeasureLayer;
@@ -45,8 +46,6 @@ private:
 
 	std::unique_ptr<Renderer2D> m_Renderer;
 	std::shared_ptr<Shader> m_QuadShader;
-	glm::mat4 m_Projection;
-	
 
 	std::unique_ptr<Texture> m_BackgroundTexture;
 };

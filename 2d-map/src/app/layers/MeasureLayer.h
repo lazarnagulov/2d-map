@@ -19,5 +19,5 @@ private:
 	static constexpr float CIRCLE_RADIUS = 10.0f;
 	static constexpr float LINE_THICKNESS = 5.0f;
 	Input& m_Input;
-	MeasureState m_Mode;
+	MeasureState m_State;
 };

@@ -14,19 +14,19 @@ void MeasureLayer::OnMouseButton(int button, int action, double x, double y) {
         return; 
 
     if (button == GLFW_MOUSE_BUTTON_LEFT) {
-        int pos = m_Mode.FindPointNear(point);
+        int pos = m_State.FindPointNear(point);
         if (pos < 0)
-            m_Mode.AddPoint(point);
+            m_State.AddPoint(point);
     }
     else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-        int pos = m_Mode.FindPointNear(point);
+        int pos = m_State.FindPointNear(point);
         if (pos >= 0)
-            m_Mode.RemovePoint(pos);
+            m_State.RemovePoint(pos);
     }
 }
 
 void MeasureLayer::OnRender(Renderer2D& renderer) {
-    const auto& points = m_Mode.GetPoints();
+    const auto& points = m_State.GetPoints();
     const float thickness = 5.0f;
     
     for (size_t i = 0; i < points.size(); i++) {

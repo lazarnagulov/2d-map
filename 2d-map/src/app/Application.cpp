@@ -5,18 +5,27 @@
 #include <memory>
 
 
-Application::Application() 
+Application::Application()
     : m_Input(),
-      m_Window(m_Input, *this),
-      m_WalkLayer(AddLayer<WalkLayer>(m_Input)),
-      m_MeasureLayer(AddLayer<MeasureLayer>(m_Input)),
-      m_ModeLayer(AddLayer<ModeLayer>(m_State))
+    m_Window(m_Input, *this),
+    m_WalkLayer(AddLayer<WalkLayer>(m_Input, m_Camera)),
+    m_MeasureLayer(AddLayer<MeasureLayer>(m_Input)),
+    m_ModeLayer(AddLayer<ModeLayer>(m_State)),
+    m_Camera({ 0,0 }, 1.0f)
 {
     InitRenderer();
     m_BackgroundTexture = std::make_unique<Texture>("./src/assets/textures/map.jpg");
 
     m_State.SetOnModeChanged([this](AppState::Mode mode) {
         SyncLayersWithState();
+        if (mode == AppState::Mode::MEASURE) {
+            m_Camera.SetZoom(1.0f);
+            m_Camera.SetPosition({ 0.0f,0.0f });
+        }
+        else {
+            m_Camera.SetZoom(1.5f);
+            m_Camera.SetPosition(m_WalkLayer.GetState().GetPosition());
+        }
     });
 
     SyncLayersWithState();
@@ -45,18 +54,6 @@ void Application::InitRenderer() {
     );
 
     m_Renderer = std::make_unique<Renderer2D>(m_QuadShader);
-    UpdateProjection();
-}
-
-void Application::UpdateProjection() {
-    int width = m_Window.GetWidth();
-    int height = m_Window.GetHeight();
-
-    m_Projection = glm::ortho(
-        0.0f, static_cast<float>(width),
-        0.0f, static_cast<float>(height),
-        -1.0f, 1.0f
-    );
 }
 
 void Application::Update(float deltaTime) {
@@ -84,18 +81,33 @@ void Application::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, width, height);
 
-    LoadMode();
-    m_Renderer->BeginScene(m_Projection);
+    m_Renderer->BeginScene(m_Camera.GetViewProjection(width, height));
 
     m_Renderer->DrawQuad(
-        { width / 2, height / 2 }, 
-        { m_BackgroundTexture->GetWidth(), m_BackgroundTexture->GetHeight() }, 
+        { 0.0f, 0.0f },
+        { static_cast<float>(m_BackgroundTexture->GetWidth()),
+          static_cast<float>(m_BackgroundTexture->GetHeight()) },
         *m_BackgroundTexture
     );
 
     DispatchToLayers([&](Layer& layer) {
-        layer.OnRender(*m_Renderer);
+        if (&layer != &m_ModeLayer && &layer != &m_MeasureLayer)
+            layer.OnRender(*m_Renderer);
     });
+
+    m_Renderer->EndScene();
+
+    glm::mat4 screenOrtho = glm::ortho(
+        0.0f, static_cast<float>(width),
+        0.0f, static_cast<float>(height),
+        -1.0f, 1.0f
+    );
+
+    m_Renderer->BeginScene(screenOrtho);
+
+    m_ModeLayer.OnRender(*m_Renderer);
+    if(m_MeasureLayer.IsEnabled())
+        m_MeasureLayer.OnRender(*m_Renderer);
 
     m_Renderer->EndScene();
 }
@@ -109,17 +121,6 @@ void Application::OnKey(int key, int action) {
     DispatchToLayers([&](Layer& layer) {
         layer.OnKey(key, action);
     });
-}
-
-void Application::LoadMode() {
-    if (m_State.GetCurrentMode() == AppState::Mode::WALK) {
-        m_WalkLayer.SetEnabled(true);
-        m_MeasureLayer.SetEnabled(false);
-    }
-    else {
-        m_WalkLayer.SetEnabled(false);
-        m_MeasureLayer.SetEnabled(true);
-    }
 }
 
 void Application::OnMouseMove(double x, double y) {
