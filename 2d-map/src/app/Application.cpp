@@ -11,6 +11,7 @@ Application::Application()
     m_MeasureLayer(AddLayer<MeasureLayer>(m_Input)) 
 {
     m_WalkLayer.SetEnabled(true);
+    m_MeasureLayer.SetEnabled(false);
     InitRenderer();
 
     m_BackgroundTexture = std::make_unique<Texture>("./src/assets/textures/map.jpg");
@@ -61,6 +62,8 @@ void Application::Update(float deltaTime) {
     m_Window.Update();
     auto& layers = m_LayerStack.GetLayers();
     for (auto it = layers.rbegin(); it != layers.rend(); ++it) {
+        if (!(*it)->IsEnabled())
+            continue;
         (*it)->OnUpdate(deltaTime);
     }
     m_Input.EndFrame();
@@ -81,8 +84,9 @@ void Application::Render() {
         *m_BackgroundTexture
     );
 
-    for (auto& layer : m_LayerStack.GetLayers())
-        layer->OnRender(*m_Renderer);
+    DispatchToLayers([&](Layer& layer) {
+        layer.OnRender(*m_Renderer);
+    });
 
     m_Renderer->EndScene();
 }
@@ -102,29 +106,26 @@ void Application::OnKey(int key, int action) {
         return;
     }
 
-    auto& layers = m_LayerStack.GetLayers();
-    for (auto it = layers.rbegin(); it != layers.rend(); ++it) {
-        (*it)->OnKey(key, action);
-    }
+    DispatchToLayers([&](Layer& layer) {
+        layer.OnKey(key, action);
+    });
 }
 
 
 void Application::OnMouseMove(double x, double y) {
-    auto& layers = m_LayerStack.GetLayers();
-    for (auto it = layers.rbegin(); it != layers.rend(); ++it) {
-        if (!(*it)->IsEnabled())
-            continue;
-        (*it)->OnMouseMove(x, y);
-    }
+    DispatchToLayers([&](Layer& layer) {
+        layer.OnMouseMove(x, y);
+    });
 }
 
 void Application::OnMouseButton(int button, int action) {
-    auto& layers = m_LayerStack.GetLayers();
-    for (auto it = layers.rbegin(); it != layers.rend(); ++it) {
-        if (!(*it)->IsEnabled())
-            continue;
-        (*it)->OnMouseButton(button, action, m_Input.GetMouseX(), m_Window.GetHeight() - m_Input.GetMouseY());
-    }
+    DispatchToLayers([&](Layer& layer) {
+        layer.OnMouseButton(
+            button, action,
+            m_Input.GetMouseX(),
+            m_Window.GetHeight() - m_Input.GetMouseY()
+        );
+    });
 }
 
 template<typename T, typename... Args>
@@ -133,4 +134,14 @@ T& Application::AddLayer(Args&&... args) {
     T& ref = *layer;
     m_LayerStack.PushLayer(std::move(layer));
     return ref;
+}
+
+template<typename Event>
+void Application::DispatchToLayers(Event&& eventCallback) {
+    auto& layers = m_LayerStack.GetLayers();
+    for (auto it = layers.rbegin(); it != layers.rend(); ++it) {
+        if (!(*it)->IsEnabled())
+            continue;
+        eventCallback(**it);
+    }
 }

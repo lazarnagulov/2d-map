@@ -27,6 +27,9 @@ private:
 	void InitRenderer();
 	void UpdateProjection();
 
+	template<typename Event>
+	void DispatchToLayers(Event&& eventCallback);
+
 private:
 	Input m_Input;
 	Window m_Window;
