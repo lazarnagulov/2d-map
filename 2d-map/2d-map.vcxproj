@@ -1908,6 +1908,9 @@
     <Image Include="src\assets\textures\measure-mode.png" />
     <Image Include="src\assets\textures\walk-mode.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="src\assets\fonts\Vaseline Extra.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

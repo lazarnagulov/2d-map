@@ -46,6 +46,7 @@ private:
 
 	std::unique_ptr<Renderer2D> m_Renderer;
 	std::shared_ptr<Shader> m_QuadShader;
+	std::shared_ptr<Shader> m_TextShader;
 
 	std::unique_ptr<Texture> m_BackgroundTexture;
 };

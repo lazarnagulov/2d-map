@@ -15,6 +15,8 @@ Application::Application()
 {
     InitRenderer();
     m_BackgroundTexture = std::make_unique<Texture>("./src/assets/textures/map.jpg");
+    m_MeasureLayer.SetTextPosition({ 50.0f, m_Window.GetHeight() - 50.0f });
+
 
     m_State.SetOnModeChanged([this](AppState::Mode mode) {
         SyncLayersWithState();
@@ -35,8 +37,6 @@ Application::~Application() = default;
 
 
 void Application::Run(float targetFps) {
-    auto quadShader = std::make_shared<Shader>("./src/assets/shaders/quad.vert", "./src/assets/shaders/quad.frag");
-    Renderer2D renderer(quadShader);
 
     FrameLimiter frameLimiter(targetFps);
     while (!GetWindow().ShouldClose()) {
@@ -53,7 +53,14 @@ void Application::InitRenderer() {
         "./src/assets/shaders/quad.frag"
     );
 
+    m_TextShader = std::make_shared<Shader>(
+        "./src/assets/shaders/text.vert",
+        "./src/assets/shaders/text.frag"
+    );
+
     m_Renderer = std::make_unique<Renderer2D>(m_QuadShader);
+    m_Renderer->SetTextShader(m_TextShader);
+    m_Renderer->LoadFont("./src/assets/fonts/Vaseline Extra.ttf");
 }
 
 void Application::Update(float deltaTime) {
@@ -104,10 +111,21 @@ void Application::Render() {
     );
 
     m_Renderer->BeginScene(screenOrtho);
+    
+    m_Renderer->DrawText("Lazar Nagulov SV61/2022", { 50.0f, m_Window.GetHeight() - 100.0f }, 1.0f, { 0.0f, 0.8f, 1.0f, 1.0f });
+    
+    if(m_WalkLayer.IsEnabled())
+        m_Renderer->DrawText(
+            "Total distance: " + std::to_string(m_WalkLayer.GetState().GetWalkedDistance()),
+            { 50.0f, m_Window.GetHeight() - 50.0f },
+            0.5f,
+            { 0.0f, 0.0f, 0.0f, 1.0f }
+        );
 
-    m_ModeLayer.OnRender(*m_Renderer);
-    if(m_MeasureLayer.IsEnabled())
-        m_MeasureLayer.OnRender(*m_Renderer);
+    DispatchToLayers([&](Layer& layer) {
+        if (&layer != &m_WalkLayer)
+            layer.OnRender(*m_Renderer);
+    });
 
     m_Renderer->EndScene();
 }

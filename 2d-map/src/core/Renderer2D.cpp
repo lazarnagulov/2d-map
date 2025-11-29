@@ -263,9 +263,6 @@ void Renderer2D::DrawText(const std::string& txt, glm::vec2 pos, float scale, co
 
         pos.x += (ch.Advance >> 6) * scale;
     }
-
-    glDisable(GL_BLEND);
-    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Renderer2D::LoadFont(const std::string& fontPath, unsigned int fontSize) {
@@ -323,7 +320,7 @@ void Renderer2D::LoadFont(const std::string& fontPath, unsigned int fontSize) {
     FT_Done_FreeType(ft);
 
     m_TextVA = std::make_unique<VertexArray>();
-    m_TextVB = std::make_unique<VertexBuffer>(nullptr, sizeof(float) * 6 * 4, true); // Dynamic buffer
+    m_TextVB = std::make_unique<VertexBuffer>(nullptr, sizeof(float) * 6 * 4, true); 
 
     VertexBufferLayout layout;
     layout.PushFloat(4); 

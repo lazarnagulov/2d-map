@@ -3574,4 +3574,7 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="src\assets\fonts\Vaseline Extra.ttf" />
+  </ItemGroup>
 </Project>

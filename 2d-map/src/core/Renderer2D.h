@@ -34,6 +34,8 @@ public:
     void DrawText(const std::string& txt, glm::vec2 pos, float scale, const glm::vec4& color = glm::vec4(1.0f));
     void LoadFont(const std::string& fontPath, unsigned int fontSize = 48);
 
+    inline void SetTextShader(std::shared_ptr<Shader>& shader) { m_TextShader = shader; }
+
 private:
     void InitQuad();
     void InitLine();
