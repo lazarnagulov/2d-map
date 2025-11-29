@@ -12,57 +12,31 @@
 #include "core/Camera.h"
 #include "core/FrameLimiter.h"
 #include "app/Application.h"
+#include "core/Renderer2D.h"
 
-int main(void)
-{
+int main(void) {
     Application app;
-
-    int screenWidth = app.GetWindow().GetWidth();
-    int screenHeight = app.GetWindow().GetHeight();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    int screenWidth = app.GetWindow().GetWidth();
+    int screenHeight = app.GetWindow().GetHeight();
+
+    auto quadShader = std::make_shared<Shader>("./src/assets/shaders/quad.vert", "./src/assets/shaders/quad.frag");
+    Renderer2D renderer(quadShader);
     Texture texture("./src/assets/textures/map.jpg");
     texture.Bind();
 
+    glm::mat4 projection = glm::ortho(
+        0.0f, static_cast<float>(screenWidth),    
+        0.0f, static_cast<float>(screenHeight),
+        -1.0f, 1.0f         
+    );
+
+
     int mapHeight = texture.GetHeight();
     int mapWidth = texture.GetWidth();
-
-    float verticesRect[] = {
-        0.0f,         0.0f,          0.0f, 1.0f, 
-        0.0f,         screenHeight,  0.0f, 0.0f, 
-        screenWidth,  screenHeight,  1.0f, 0.0f,
-        screenWidth,  0.0f,          1.0f, 1.0f  
-    };
-
-    VertexArray va;
-    VertexBuffer vb(verticesRect, 4 * 4 * sizeof(float));
-    VertexBufferLayout layout;
-    layout.PushFloat(2);
-    layout.PushFloat(2); 
-    va.AddBuffer(vb, layout);
-
-    float zoom = 1.0f;
-    Shader shader("./src/assets/shaders/texture.vert", "./src/assets/shaders/texture.frag");
-    shader.Bind();
-    glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 view = glm::mat4(1.0f);
-
-    float halfW = (float)screenWidth * 0.5f;
-    float halfH = (float)screenHeight * 0.5f;
-
-    float left = halfW - halfW * zoom;
-    float right = halfW + halfW * zoom;
-    float bottom = halfH - halfH * zoom;
-    float top = halfH + halfH * zoom;
-
-    glm::mat4 proj = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
-
-    shader.SetUniform1i("uTex", 0);
-    shader.SetUniformMat4("uModel", model);
-    shader.SetUniformMat4("uView", view);
-    shader.SetUniformMat4("uProj", proj);
 
     FrameLimiter frameLimiter(75);
 
@@ -72,8 +46,44 @@ int main(void)
         {
             glClear(GL_COLOR_BUFFER_BIT);
             glViewport(0, 0, screenWidth, screenHeight);
-            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
+            renderer.BeginScene(projection);
+
+            renderer.DrawQuad(
+                glm::vec2(100.0f, 100.0f),       
+                glm::vec2(100.0f, 100.0f),        
+                glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)  
+            );
+
+            renderer.DrawQuad(
+                glm::vec2(250.0f, 100.0f),
+                glm::vec2(100.0f, 100.0f),
+                glm::radians(45.0f),              
+                glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)
+            );
+
+            renderer.DrawLine(
+                glm::vec2(100.0f, 250.0f),        
+                glm::vec2(600.0f, 300.0f),      
+                4.0f,                          
+                glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)  
+            );
+
+            renderer.DrawCircle(
+                glm::vec2(200.0f, 400.0f),    
+                60.0f,                           
+                glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), 
+                true                                 
+            );
+
+            renderer.DrawCircleOutline(
+                glm::vec2(400.0f, 400.0f),
+                60.0f,                             
+                3.0f,                          
+                glm::vec4(1.0f, 0.0f, 1.0f, 1.0f) 
+            );
+
+            renderer.EndScene();
             app.Update(frameLimiter.GetDeltaTime());
         }
 
