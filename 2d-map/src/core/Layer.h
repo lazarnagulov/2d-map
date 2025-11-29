@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../core/Renderer2D.h"
+
 class Layer {
 public:
     virtual ~Layer() = default;
@@ -8,7 +10,7 @@ public:
     virtual void OnDetach() {}     
 
     virtual void OnUpdate(float deltaTime) {} 
-    virtual void OnRender() {}       
+    virtual void OnRender(Renderer2D& renderer) {}       
 
     virtual void OnKey(int key, int action) {}
     virtual void OnMouseButton(int button, int action, double x, double y) {}
