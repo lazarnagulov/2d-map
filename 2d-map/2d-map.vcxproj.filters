@@ -45,31 +45,34 @@
     <ClCompile Include="src\core\FrameLimiter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\app\WalkMode.cpp">
+    <ClCompile Include="src\app\states\WalkState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\app\MeasureMode.cpp">
+    <ClCompile Include="src\app\states\MeasureState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\app\AppState.cpp">
+    <ClCompile Include="src\app\states\AppState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\app\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\app\WalkLayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\LayerStack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\app\MeasureLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\Renderer2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\IndexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\app\layers\MeasureLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\app\layers\ModeLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\app\layers\WalkLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1841,19 +1844,13 @@
     <ClInclude Include="src\core\FrameLimiter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\app\WalkMode.h">
+    <ClInclude Include="src\app\states\MeasureState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\app\MeasureMode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\app\AppState.h">
+    <ClInclude Include="src\app\states\AppState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\app\Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\app\WalkLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Layer.h">
@@ -1862,13 +1859,22 @@
     <ClInclude Include="src\core\LayerStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\app\MeasureLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\Renderer2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\IndexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\app\layers\MeasureLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\app\layers\ModeLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\app\layers\WalkLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\app\states\WalkState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -3557,6 +3563,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\assets\textures\map.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\assets\textures\walk-mode.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

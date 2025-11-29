@@ -1,12 +1,10 @@
 #pragma once
-
-#pragma once
 #include <vector>
 #include <glm/glm.hpp>
 
-class MeasureMode {
+class MeasureState {
 public:
-    MeasureMode() = default;
+    MeasureState() = default;
 
     void AddPoint(const glm::vec2& point);
     void RemovePoint(size_t index);

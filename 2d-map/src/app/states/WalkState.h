@@ -1,9 +1,7 @@
 #pragma once
-
-#pragma once
 #include <glm/glm.hpp>
 
-class WalkMode {
+class WalkState {
 public:
     enum MoveDirection : uint8_t {
         NONE = 0,
@@ -13,7 +11,7 @@ public:
         RIGHT = 1 << 3 
     };
 
-    WalkMode(const glm::vec2& startPosition = { 0.0f, 0.0f });
+    WalkState(const glm::vec2& startPosition = { 0.0f, 0.0f });
 
     void Update(float deltaTime, uint8_t directions);
     void Reset();

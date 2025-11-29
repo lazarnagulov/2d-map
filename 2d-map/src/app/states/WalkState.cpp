@@ -1,10 +1,10 @@
-#include "WalkMode.h"
+#include "WalkState.h"
 
-WalkMode::WalkMode(const glm::vec2& startPosition /*= { 0.0f, 0.0f }*/)
+WalkState::WalkState(const glm::vec2& startPosition /*= { 0.0f, 0.0f }*/)
 	: m_Position(startPosition), m_WalkedDistance(0), m_MoveSpeed(200.0f)
 {}
 
-void WalkMode::Update(float deltaTime, uint8_t directions) {
+void WalkState::Update(float deltaTime, uint8_t directions) {
     glm::vec2 movement(0.0f);
 
     if (directions & UP)    movement.y += 1.0f;
@@ -21,7 +21,7 @@ void WalkMode::Update(float deltaTime, uint8_t directions) {
     }
 }
 
-void WalkMode::Reset() {
+void WalkState::Reset() {
 	m_Position = glm::vec2(0.0f);
 	m_WalkedDistance = 0.0f;
 }

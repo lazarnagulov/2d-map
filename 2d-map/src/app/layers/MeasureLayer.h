@@ -3,7 +3,7 @@
 #include "../../core/Input.h"
 #include "../../core/Layer.h"
 #include "../../core/Renderer2D.h"
-#include "../MeasureMode.h"
+#include "../states/MeasureState.h"
 
 class MeasureLayer : public Layer {
 public:
@@ -19,5 +19,5 @@ private:
 	static constexpr float CIRCLE_RADIUS = 10.0f;
 	static constexpr float LINE_THICKNESS = 5.0f;
 	Input& m_Input;
-	MeasureMode m_Mode;
+	MeasureState m_Mode;
 };

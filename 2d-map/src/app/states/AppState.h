@@ -1,8 +1,8 @@
 #pragma once
-#include "WalkMode.h"
-#include "MeasureMode.h"
-#include "./layers/MeasureLayer.h"
-#include "./layers/WalkLayer.h"
+#include "WalkState.h"
+#include "MeasureState.h"
+#include "../layers/MeasureLayer.h"
+#include "../layers/WalkLayer.h"
 
 class AppState {
 public:

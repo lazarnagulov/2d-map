@@ -22,9 +22,7 @@ Application::Application()
     SyncLayersWithState();
 }
 
-Application::~Application() {
-	m_Window.~Window();
-}
+Application::~Application() = default;
 
 
 void Application::Run(float targetFps) {

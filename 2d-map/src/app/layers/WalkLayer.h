@@ -4,7 +4,7 @@
 #include "../../core/Input.h"
 #include "../../core/Texture.h"
 #include "../../core/Renderer2D.h"
-#include "../WalkMode.h"
+#include "../states/WalkState.h"
 
 class WalkLayer : public Layer {
 public:
@@ -12,5 +12,5 @@ public:
     void OnUpdate(float dt) override; 
 private:
     Input& m_Input;
-    WalkMode m_Mode;
+    WalkState m_Mode;
 };

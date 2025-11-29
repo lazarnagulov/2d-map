@@ -156,12 +156,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\app\Application.cpp" />
-    <ClCompile Include="src\app\AppState.cpp" />
+    <ClCompile Include="src\app\states\AppState.cpp" />
     <ClCompile Include="src\app\layers\MeasureLayer.cpp" />
     <ClCompile Include="src\app\layers\ModeLayer.cpp" />
-    <ClCompile Include="src\app\MeasureMode.cpp" />
+    <ClCompile Include="src\app\states\MeasureState.cpp" />
     <ClCompile Include="src\app\layers\WalkLayer.cpp" />
-    <ClCompile Include="src\app\WalkMode.cpp" />
+    <ClCompile Include="src\app\states\WalkState.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
     <ClCompile Include="src\core\FrameLimiter.cpp" />
     <ClCompile Include="src\core\IndexBuffer.cpp" />
@@ -178,12 +178,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\Application.h" />
-    <ClInclude Include="src\app\AppState.h" />
+    <ClInclude Include="src\app\states\AppState.h" />
     <ClInclude Include="src\app\layers\MeasureLayer.h" />
     <ClInclude Include="src\app\layers\ModeLayer.h" />
-    <ClInclude Include="src\app\MeasureMode.h" />
+    <ClInclude Include="src\app\states\MeasureState.h" />
     <ClInclude Include="src\app\layers\WalkLayer.h" />
-    <ClInclude Include="src\app\WalkMode.h" />
+    <ClInclude Include="src\app\states\WalkState.h" />
     <ClInclude Include="src\core\Camera.h" />
     <ClInclude Include="src\core\FrameLimiter.h" />
     <ClInclude Include="src\core\IndexBuffer.h" />
