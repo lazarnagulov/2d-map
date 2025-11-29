@@ -28,7 +28,6 @@ public:
 	T& AddLayer(Args&&... args);
 private:
 	void InitRenderer();
-	void UpdateProjection();
 	void SyncLayersWithState();
 	template<typename Event>
 	void DispatchToLayers(Event&& eventCallback);
@@ -47,7 +46,6 @@ private:
 
 	std::unique_ptr<Renderer2D> m_Renderer;
 	std::shared_ptr<Shader> m_QuadShader;
-	glm::mat4 m_Projection;
 
 	std::unique_ptr<Texture> m_BackgroundTexture;
 };

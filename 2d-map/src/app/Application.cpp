@@ -54,18 +54,6 @@ void Application::InitRenderer() {
     );
 
     m_Renderer = std::make_unique<Renderer2D>(m_QuadShader);
-    UpdateProjection();
-}
-
-void Application::UpdateProjection() {
-    int width = m_Window.GetWidth();
-    int height = m_Window.GetHeight();
-
-    m_Projection = glm::ortho(
-        0.0f, static_cast<float>(width),
-        0.0f, static_cast<float>(height),
-        -1.0f, 1.0f
-    );
 }
 
 void Application::Update(float deltaTime) {
