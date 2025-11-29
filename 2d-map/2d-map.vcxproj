@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\app\Application.cpp" />
+    <ClCompile Include="src\app\layers\CompassCursorLayer.cpp" />
     <ClCompile Include="src\app\states\AppState.cpp" />
     <ClCompile Include="src\app\layers\MeasureLayer.cpp" />
     <ClCompile Include="src\app\layers\ModeLayer.cpp" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\Application.h" />
+    <ClInclude Include="src\app\layers\CompassCursorLayer.h" />
     <ClInclude Include="src\app\states\AppState.h" />
     <ClInclude Include="src\app\layers\MeasureLayer.h" />
     <ClInclude Include="src\app\layers\ModeLayer.h" />
@@ -1904,6 +1906,7 @@
     <Text Include="src\vendor\glm\glm\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="src\assets\textures\map-pin.png" />
     <Image Include="src\assets\textures\map.jpg" />
     <Image Include="src\assets\textures\measure-mode.png" />
     <Image Include="src\assets\textures\walk-mode.png" />

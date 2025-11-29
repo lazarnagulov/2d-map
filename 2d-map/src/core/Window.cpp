@@ -109,3 +109,7 @@ void Window::ApplyLetterbox(float targetAspectRatio /* = 1.0f*/) {
 
     glViewport(offsetX, offsetY, renderWidth, renderHeight);
 }
+
+void Window::DisableSystemCursor() {
+    glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+}

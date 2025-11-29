@@ -18,6 +18,7 @@ public:
 	inline bool ShouldClose() const { return glfwWindowShouldClose(m_Window); };
 	void ApplyLetterbox(float targetAspectRatio = 1.0f);
 	void Update();
+	void DisableSystemCursor();
 
 	inline int GetWidth() const { return m_Width; }
 	inline int GetHeight() const { return m_Height; }
