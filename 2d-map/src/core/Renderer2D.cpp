@@ -1,5 +1,10 @@
 #include "Renderer2D.h"
 #include <GL/glew.h>
+#include <iostream>
+
+#include "ft2build.h"
+#include <freetype/freetype.h>
+#define FT_FREETYPE_H
 
 Renderer2D::Renderer2D(const std::shared_ptr<Shader>& shader)
     : m_QuadShader(shader) { }
@@ -209,4 +214,120 @@ void Renderer2D::InitCircle() {
     m_CircleVA->AddBuffer(*m_CircleVB, layout);
 
     m_CircleInitialized = true;
+}
+
+void Renderer2D::DrawText(const std::string& txt, glm::vec2 pos, float scale, const glm::vec4& color) {
+    if (!m_FontLoaded) {
+        std::cerr << "ERROR: Font not loaded. Call LoadFont() first." << std::endl;
+        return;
+    }
+
+    if (!m_TextShader) {
+        std::cerr << "ERROR: Text shader not set." << std::endl;
+        return;
+    }
+
+    m_TextShader->Bind();
+    m_TextShader->SetUniform4f("uTextColor", color);
+    m_TextShader->SetUniformMat4("uViewProjection", m_ViewProjection);
+
+
+    glActiveTexture(GL_TEXTURE0);
+    m_TextVA->Bind();
+
+    for (char c : txt) {
+        Character ch = m_Characters[c];
+
+        float xpos = pos.x + ch.Bearing.x * scale;
+        float ypos = pos.y - (ch.Size.y - ch.Bearing.y) * scale;
+
+        float w = ch.Size.x * scale;
+        float h = ch.Size.y * scale;
+
+        float vertices[6][4] = {
+            { xpos,     ypos + h,   0.0f, 0.0f },
+            { xpos,     ypos,       0.0f, 1.0f },
+            { xpos + w, ypos,       1.0f, 1.0f },
+
+            { xpos,     ypos + h,   0.0f, 0.0f },
+            { xpos + w, ypos,       1.0f, 1.0f },
+            { xpos + w, ypos + h,   1.0f, 0.0f }
+        };
+
+        glBindTexture(GL_TEXTURE_2D, ch.TextureId);
+
+        m_TextVB->Bind();
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        pos.x += (ch.Advance >> 6) * scale;
+    }
+
+    glDisable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Renderer2D::LoadFont(const std::string& fontPath, unsigned int fontSize) {
+    FT_Library ft;
+    if (FT_Init_FreeType(&ft)) {
+        std::cerr << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+        return;
+    }
+
+    FT_Face face;
+    if (FT_New_Face(ft, fontPath.c_str(), 0, &face)) {
+        std::cerr << "ERROR::FREETYPE: Failed to load font" << std::endl;
+        return;
+    }
+
+    FT_Set_Pixel_Sizes(face, 0, fontSize);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    for (unsigned char c = 0; c < 128; c++) {
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+            std::cerr << "ERROR::FREETYPE: Failed to load Glyph " << c << std::endl;
+            continue;
+        }
+
+        unsigned int texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RED,
+            face->glyph->bitmap.width,
+            face->glyph->bitmap.rows,
+            0,
+            GL_RED,
+            GL_UNSIGNED_BYTE,
+            face->glyph->bitmap.buffer
+        );
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        Character character = {
+            texture,
+            glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+            glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+            static_cast<unsigned int>(face->glyph->advance.x)
+        };
+        m_Characters.insert(std::pair<char, Character>(c, character));
+    }
+
+    FT_Done_Face(face);
+    FT_Done_FreeType(ft);
+
+    m_TextVA = std::make_unique<VertexArray>();
+    m_TextVB = std::make_unique<VertexBuffer>(nullptr, sizeof(float) * 6 * 4, true); // Dynamic buffer
+
+    VertexBufferLayout layout;
+    layout.PushFloat(4); 
+    m_TextVA->AddBuffer(*m_TextVB, layout);
+
+    m_FontLoaded = true;
 }

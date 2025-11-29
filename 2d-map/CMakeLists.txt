@@ -17,7 +17,6 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(glfw)
 
 find_package(GLEW QUIET)
-
 if(NOT GLEW_FOUND)
     message(STATUS "System GLEW not found, fetching from source...")
     
@@ -68,6 +67,45 @@ else()
     FetchContent_MakeAvailable(glm)
 endif()
 
+find_package(Freetype QUIET)
+
+if(NOT Freetype_FOUND)
+    message(STATUS "System FreeType not found, using vendor copy...")
+    
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor/freetype/CMakeLists.txt)
+        message(STATUS "Using FreeType from src/vendor/freetype")
+        
+        set(FT_DISABLE_ZLIB ON CACHE BOOL "" FORCE)
+        set(FT_DISABLE_BZIP2 ON CACHE BOOL "" FORCE)
+        set(FT_DISABLE_PNG ON CACHE BOOL "" FORCE)
+        set(FT_DISABLE_HARFBUZZ ON CACHE BOOL "" FORCE)
+        set(FT_DISABLE_BROTLI ON CACHE BOOL "" FORCE)
+        
+        add_subdirectory(src/vendor/freetype)
+        set(FREETYPE_LIB freetype)
+    else()
+        message(STATUS "Fetching FreeType from GitHub...")
+        
+        FetchContent_Declare(
+            freetype
+            GIT_REPOSITORY https://github.com/freetype/freetype.git
+            GIT_TAG VER-2-13-2
+        )
+        
+        set(FT_DISABLE_ZLIB ON CACHE BOOL "" FORCE)
+        set(FT_DISABLE_BZIP2 ON CACHE BOOL "" FORCE)
+        set(FT_DISABLE_PNG ON CACHE BOOL "" FORCE)
+        set(FT_DISABLE_HARFBUZZ ON CACHE BOOL "" FORCE)
+        set(FT_DISABLE_BROTLI ON CACHE BOOL "" FORCE)
+        
+        FetchContent_MakeAvailable(freetype)
+        set(FREETYPE_LIB freetype)
+    endif()
+else()
+    message(STATUS "Using system FreeType")
+    set(FREETYPE_LIB Freetype::Freetype)
+endif()
+
 add_library(stb_image
     src/vendor/stb_image/stb_image.cpp
 )
@@ -78,7 +116,6 @@ target_include_directories(stb_image PUBLIC
 file(GLOB_RECURSE SRC_FILES
     src/*.cpp
 )
-
 list(FILTER SRC_FILES EXCLUDE REGEX "src/vendor/.*")
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
@@ -93,6 +130,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_link_libraries(${PROJECT_NAME} PRIVATE
     glfw
     ${GLEW_LIB}
+    ${FREETYPE_LIB}
     stb_image
 )
 
@@ -114,3 +152,9 @@ else()
     endif()
     target_link_libraries(${PROJECT_NAME} PRIVATE pthread dl)
 endif()
+
+message(STATUS "")
+message(STATUS "Configuration Summary:")
+message(STATUS "  FreeType: ${FREETYPE_LIB}")
+message(STATUS "  GLEW: ${GLEW_LIB}")
+message(STATUS "")

@@ -31,11 +31,20 @@ public:
     void DrawCircle(const glm::vec2& center, float radius, const glm::vec4& color, bool filled = true);
     void DrawCircleOutline(const glm::vec2& center, float radius, float thickness, const glm::vec4& color);
 
+    void DrawText(const std::string& txt, glm::vec2 pos, float scale, const glm::vec4& color = glm::vec4(1.0f));
+    void LoadFont(const std::string& fontPath, unsigned int fontSize = 48);
 
 private:
     void InitQuad();
     void InitLine();
     void InitCircle();
+
+    struct Character {
+        unsigned int TextureId;
+        glm::ivec2 Size;
+        glm::ivec2 Bearing;
+        unsigned int Advance;
+    };
 
 private:
     std::shared_ptr<Shader> m_QuadShader;
@@ -58,6 +67,11 @@ private:
     std::unique_ptr<IndexBuffer> m_CircleIB;
     bool m_CircleInitialized = false;
     unsigned int m_CircleSegments = 64;
+
+    std::unordered_map<char, Character> m_Characters;
+    std::unique_ptr<VertexArray> m_TextVA;
+    std::unique_ptr<VertexBuffer> m_TextVB;
+    bool m_FontLoaded = false;
     
     glm::mat4 m_ViewProjection = glm::mat4(1.0f);
 };
