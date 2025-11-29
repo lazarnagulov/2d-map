@@ -4,6 +4,7 @@
 #include "layers/MeasureLayer.h"
 #include "layers/WalkLayer.h"
 #include "layers/ModeLayer.h"
+#include "layers/CompassCursorLayer.h"
 
 #include "../core/Camera.h"
 #include "../core/Window.h"
@@ -47,6 +48,7 @@ private:
 	ModeLayer& m_ModeLayer;
 	WalkLayer& m_WalkLayer;
 	MeasureLayer& m_MeasureLayer;
+	CompassCursorLayer& m_CursorLayer;
 
 	AppState m_State;
 

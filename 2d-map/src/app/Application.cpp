@@ -11,9 +11,11 @@ Application::Application()
     m_WalkLayer(AddLayer<WalkLayer>(m_Input, m_Camera)),
     m_MeasureLayer(AddLayer<MeasureLayer>(m_Input)),
     m_ModeLayer(AddLayer<ModeLayer>(m_State)),
+    m_CursorLayer(AddLayer<CompassCursorLayer>(m_Input,  glm::vec2(0.0f, m_Window.GetHeight()))),
     m_Camera({ 0,0 }, 1.0f)
 {
     InitRenderer();
+    m_Window.DisableSystemCursor();
     m_BackgroundTexture = std::make_unique<Texture>("./src/assets/textures/map.jpg");
     m_MeasureLayer.SetTextPosition({ 50.0f, m_Window.GetHeight() - 50.0f });
     glm::vec2 halfSize = {
@@ -101,7 +103,7 @@ void Application::RenderWorld(int width, int height) {
     RenderBackground();
 
     DispatchToLayers([&](Layer& layer) {
-        if (&layer != &m_ModeLayer && &layer != &m_MeasureLayer)
+        if (&layer != &m_ModeLayer && &layer != &m_MeasureLayer && &layer != &m_CursorLayer)
             layer.OnRender(*m_Renderer);
         });
 
