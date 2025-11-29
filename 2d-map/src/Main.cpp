@@ -50,37 +50,9 @@ int main(void) {
             renderer.BeginScene(projection);
 
             renderer.DrawQuad(
-                glm::vec2(100.0f, 100.0f),       
-                glm::vec2(100.0f, 100.0f),        
-                glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)  
-            );
-
-            renderer.DrawQuad(
-                glm::vec2(250.0f, 100.0f),
-                glm::vec2(100.0f, 100.0f),
-                glm::radians(45.0f),              
-                glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)
-            );
-
-            renderer.DrawLine(
-                glm::vec2(100.0f, 250.0f),        
-                glm::vec2(600.0f, 300.0f),      
-                4.0f,                          
-                glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)  
-            );
-
-            renderer.DrawCircle(
-                glm::vec2(200.0f, 400.0f),    
-                60.0f,                           
-                glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), 
-                true                                 
-            );
-
-            renderer.DrawCircleOutline(
-                glm::vec2(400.0f, 400.0f),
-                60.0f,                             
-                3.0f,                          
-                glm::vec4(1.0f, 0.0f, 1.0f, 1.0f) 
+                glm::vec2(screenWidth / 2, screenHeight / 2),
+                glm::vec2(mapWidth, mapHeight),
+                texture
             );
 
             renderer.EndScene();

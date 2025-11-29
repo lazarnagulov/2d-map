@@ -23,6 +23,8 @@ public:
 
     void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
     void DrawQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color);
+    void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& texture);
+    void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& texture, const glm::vec4& tint);
 
     void DrawLine(const glm::vec2& p0, const glm::vec2& p1, float thickness, const glm::vec4& color);
 

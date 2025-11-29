@@ -42,6 +42,32 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, cons
     DrawQuad(position, size, 0.0f, color);
 }
 
+void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& texture, const glm::vec4& tint) {
+    if (!m_QuadInitialized)
+        InitQuad();
+
+    m_QuadShader->Bind();
+
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f))
+        * glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
+
+    m_QuadShader->SetUniformMat4("uModel", model);
+    m_QuadShader->SetUniform4f("uColor", tint);
+    m_QuadShader->SetUniform1i("uTex", 1);
+
+    texture.Bind(0);
+    glBindTexture(GL_TEXTURE_2D, texture.GetId());
+
+    m_QuadVA->Bind();
+    m_QuadIB->Bind();
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
+void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& texture) {
+    DrawQuad(position, size, texture, glm::vec4(1.0f));
+}
+
 void Renderer2D::DrawLine(const glm::vec2& p0, const glm::vec2& p1, float thickness, const glm::vec4& color) {
     if (!m_LineInitialized)
         InitLine();

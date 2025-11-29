@@ -11,7 +11,7 @@ public:
 	void Unbind() const;
 	inline int GetWidth() const { return m_Width; };
 	inline int GetHeight() const { return m_Height; };
-
+	inline unsigned int GetId() const { return m_RendererId; }
 private:
 	unsigned int m_RendererId;
 	std::string m_FilePath;
