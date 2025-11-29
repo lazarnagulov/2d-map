@@ -90,53 +90,68 @@ void Application::SyncLayersWithState() {
     m_ModeLayer.SetEnabled(true); 
 }
 
-void Application::Render() {
-    int width = m_Window.GetWidth();
-    int height = m_Window.GetHeight();
-
+void Application::PrepareFrame(int width, int height) {
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, width, height);
+}
 
+void Application::RenderWorld(int width, int height) {
     m_Renderer->BeginScene(m_Camera.GetViewProjection(width, height));
 
-    m_Renderer->DrawQuad(
-        { 0.0f, 0.0f },
-        { static_cast<float>(m_BackgroundTexture->GetWidth()),
-          static_cast<float>(m_BackgroundTexture->GetHeight()) },
-        *m_BackgroundTexture
-    );
+    RenderBackground();
 
     DispatchToLayers([&](Layer& layer) {
         if (&layer != &m_ModeLayer && &layer != &m_MeasureLayer)
             layer.OnRender(*m_Renderer);
-    });
+        });
 
     m_Renderer->EndScene();
+}
 
+void Application::RenderBackground() {
+    const float bgWidth = static_cast<float>(m_BackgroundTexture->GetWidth());
+    const float bgHeight = static_cast<float>(m_BackgroundTexture->GetHeight());
+
+    m_Renderer->DrawQuad({ 0.0f, 0.0f }, { bgWidth, bgHeight }, *m_BackgroundTexture);
+}
+
+void Application::RenderUI(int width, int height) {
     glm::mat4 screenOrtho = glm::ortho(
         0.0f, static_cast<float>(width),
         0.0f, static_cast<float>(height),
-        -1.0f, 1.0f
-    );
+        -1.0f, 1.0f);
 
     m_Renderer->BeginScene(screenOrtho);
-    
-    m_Renderer->DrawText("Lazar Nagulov SV61/2022", { 50.0f, m_Window.GetHeight() - 100.0f }, 1.0f, { 0.0f, 0.8f, 1.0f, 1.0f });
-    
-    if(m_WalkLayer.IsEnabled())
+
+    m_Renderer->DrawText(
+        "Lazar Nagulov SV61/2022",
+        { 50.0f, height - 100.0f },
+        1.0f,
+        { 0.0f, 0.8f, 1.0f, 1.0f });
+
+    if (m_WalkLayer.IsEnabled()) {
         m_Renderer->DrawText(
             "Total distance: " + std::to_string(m_WalkLayer.GetState().GetWalkedDistance()),
-            { 50.0f, m_Window.GetHeight() - 50.0f },
+            { 50.0f, height - 50.0f },
             0.5f,
-            { 0.0f, 0.0f, 0.0f, 1.0f }
-        );
-
+            { 0.0f, 0.0f, 0.0f, 1.0f });
+    }
+    
     DispatchToLayers([&](Layer& layer) {
         if (&layer != &m_WalkLayer)
             layer.OnRender(*m_Renderer);
     });
 
     m_Renderer->EndScene();
+}
+
+void Application::Render() {
+    int width = m_Window.GetWidth();
+    int height = m_Window.GetHeight();
+
+    PrepareFrame(width, height);
+    RenderWorld(width, height);
+    RenderUI(width, height);
 }
 
 void Application::OnKey(int key, int action) {

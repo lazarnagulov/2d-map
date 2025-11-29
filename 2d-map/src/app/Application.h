@@ -29,8 +29,14 @@ public:
 private:
 	void InitRenderer();
 	void SyncLayersWithState();
+	void PrepareFrame(int width, int height);
+	void RenderWorld(int width, int height);
+	void RenderBackground();
+	void RenderUI(int width, int height);
+
 	template<typename Event>
 	void DispatchToLayers(Event&& eventCallback);
+
 private:
 	Input m_Input;
 	Window m_Window;
