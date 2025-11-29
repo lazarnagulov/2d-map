@@ -1,8 +1,10 @@
 #pragma once
 
-#include "AppState.h"
-#include "MeasureLayer.h"
-#include "WalkLayer.h"
+#include "states/AppState.h"
+#include "layers/MeasureLayer.h"
+#include "layers/WalkLayer.h"
+#include "layers/ModeLayer.h"
+
 #include "../core/Window.h"
 #include "../core/LayerStack.h"
 
@@ -26,16 +28,19 @@ public:
 private:
 	void InitRenderer();
 	void UpdateProjection();
-
+	void SyncLayersWithState();
 	template<typename Event>
 	void DispatchToLayers(Event&& eventCallback);
-
+	void LoadMode();
 private:
 	Input m_Input;
 	Window m_Window;
 	LayerStack m_LayerStack;
-	MeasureLayer& m_MeasureLayer;
+	
+	ModeLayer& m_ModeLayer;
 	WalkLayer& m_WalkLayer;
+	MeasureLayer& m_MeasureLayer;
+
 	AppState m_State;
 
 	std::unique_ptr<Renderer2D> m_Renderer;
