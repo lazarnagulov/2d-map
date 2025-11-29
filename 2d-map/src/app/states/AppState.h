@@ -21,5 +21,4 @@ public:
 private:
     Mode m_CurrentMode;
     OnModeChangedCallback m_OnModeChanged;
-
 };

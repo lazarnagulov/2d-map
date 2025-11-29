@@ -14,13 +14,15 @@ void Camera::Zoom(float dz) {
 
 glm::mat4 Camera::GetViewMatrix() const {
     glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(-m_Position, 0.0f));
     view = glm::scale(view, glm::vec3(m_Zoom, m_Zoom, 1.0f));
+    view = glm::translate(view, glm::vec3(-m_Position, 0.0f));
     return view;
 }
 
-glm::mat4 Camera::GetProjectionMatrix(int screenWidht, int screenHeight) const {
-    return glm::ortho(0.0f, (float)screenWidht, 0.0f, (float)screenHeight, -1.0f, 1.0f);
+glm::mat4 Camera::GetProjectionMatrix(int screenWidth, int screenHeight) const {
+    float halfW = screenWidth * 0.5f / m_Zoom;
+    float halfH = screenHeight * 0.5f / m_Zoom;
+    return glm::ortho(-halfW, halfW, -halfH, halfH, -1.0f, 1.0f);
 }
 
 
@@ -33,10 +35,9 @@ glm::vec2 Camera::ScreenToWorld(float x, float y, int screenWidth, int screenHei
     float ny = 1.0f - 2.0f * y / screenHeight;
 
     glm::vec4 clip(nx, ny, 0.0f, 1.0f);
-
     glm::mat4 invVP = glm::inverse(GetProjectionMatrix(screenWidth, screenHeight) * GetViewMatrix());
-
     glm::vec4 world = invVP * clip;
+    
     return glm::vec2(world.x, world.y);
 }
 
