@@ -93,7 +93,6 @@ void Application::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, width, height);
 
-
     m_Renderer->BeginScene(m_Camera.GetViewProjection(width, height));
 
     m_Renderer->DrawQuad(

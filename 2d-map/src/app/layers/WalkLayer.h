@@ -22,8 +22,9 @@ private:
     Input& m_Input;
     WalkState m_State;
     Camera& m_Camera;
+    Texture m_MapPinTexture;
 
-    float m_ZoomSpeed = 1.0f;
+    float m_ZoomSpeed = 0.5f;
     float m_MinZoom = 1.0f;
     float m_MaxZoom = 2.5f; 
     static constexpr float INITIAL_ZOOM = 1.5f; 

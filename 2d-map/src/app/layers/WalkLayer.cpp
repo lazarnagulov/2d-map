@@ -2,7 +2,7 @@
 #include "GLFW/glfw3.h"
 
 WalkLayer::WalkLayer(Input& input, Camera& camera) 
-    : m_Input(input), m_Camera(camera) {}
+    : m_Input(input), m_Camera(camera), m_MapPinTexture("./src/assets/textures/map-pin.png") {}
 
 void WalkLayer::OnUpdate(float dt) {
     uint8_t directions = 0;
@@ -25,11 +25,11 @@ void WalkLayer::OnAttach() {
 }
 
 void WalkLayer::OnRender(Renderer2D& renderer) {
-    const float playerSize = 20.0f;
+    const float playerSize = 100.0f;
     renderer.DrawQuad(
         m_State.GetPosition(),
         { playerSize, playerSize },
-        { 1.0f, 0.0f, 0.0f, 1.0f }  
+        m_MapPinTexture
     );
 }
 
@@ -39,12 +39,12 @@ void WalkLayer::OnKey(int key, int action) {
 }
 
 void WalkLayer::UpdateCameraZoom(float dt) {
-    if (m_Input.IsKeyPressed(GLFW_KEY_EQUAL) || m_Input.IsKeyPressed(GLFW_KEY_KP_ADD)) {
+    if (m_Input.IsKeyHeld(GLFW_KEY_EQUAL) || m_Input.IsKeyHeld(GLFW_KEY_KP_ADD)) {
         float zoomDelta = m_ZoomSpeed * dt;
         float newZoom = m_Camera.GetZoom() + zoomDelta;
         m_Camera.SetZoom(glm::clamp(newZoom, m_MinZoom, m_MaxZoom));
     }
-    if (m_Input.IsKeyPressed(GLFW_KEY_MINUS) || m_Input.IsKeyPressed(GLFW_KEY_KP_SUBTRACT)) {
+    if (m_Input.IsKeyHeld(GLFW_KEY_MINUS) || m_Input.IsKeyHeld(GLFW_KEY_KP_SUBTRACT)) {
         float zoomDelta = m_ZoomSpeed * dt;
         float newZoom = m_Camera.GetZoom() - zoomDelta;
         m_Camera.SetZoom(glm::clamp(newZoom, m_MinZoom, m_MaxZoom));
