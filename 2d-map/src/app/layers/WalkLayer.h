@@ -16,6 +16,7 @@ public:
     void OnAttach() override;
 
     inline WalkState& GetState() { return m_State;  }
+
 private:
     void UpdateCameraZoom(float dt);
 private:
@@ -23,6 +24,7 @@ private:
     WalkState m_State;
     Camera& m_Camera;
     Texture m_MapPinTexture;
+
 
     float m_ZoomSpeed = 0.5f;
     float m_MinZoom = 1.0f;

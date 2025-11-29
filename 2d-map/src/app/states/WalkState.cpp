@@ -1,5 +1,6 @@
 #include "WalkState.h"
 
+
 WalkState::WalkState(const glm::vec2& startPosition /*= { 0.0f, 0.0f }*/)
 	: m_Position(startPosition), m_WalkedDistance(0), m_MoveSpeed(200.0f)
 {}
@@ -16,8 +17,17 @@ void WalkState::Update(float deltaTime, uint8_t directions) {
     if (glm::length(movement) > 0.0f) {
         movement = glm::normalize(movement);
         glm::vec2 delta = movement * m_MoveSpeed * deltaTime;
-        m_Position += delta;
-        m_WalkedDistance += glm::length(delta);
+
+        glm::vec2 newPos = m_Position + delta;
+
+        newPos.x = glm::clamp(newPos.x, m_MinBounds.x, m_MaxBounds.x);
+        newPos.y = glm::clamp(newPos.y, m_MinBounds.y, m_MaxBounds.y);
+
+
+        if (newPos != m_Position) {
+            m_WalkedDistance += glm::length(newPos - m_Position);
+            m_Position = newPos;
+        }
     }
 }
 

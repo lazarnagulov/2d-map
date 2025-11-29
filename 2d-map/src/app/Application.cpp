@@ -16,6 +16,15 @@ Application::Application()
     InitRenderer();
     m_BackgroundTexture = std::make_unique<Texture>("./src/assets/textures/map.jpg");
     m_MeasureLayer.SetTextPosition({ 50.0f, m_Window.GetHeight() - 50.0f });
+    glm::vec2 halfSize = {
+        m_BackgroundTexture->GetWidth() * 0.5f,
+        m_BackgroundTexture->GetHeight() * 0.5f
+    };
+
+    m_WalkLayer.GetState().SetBounds(
+        { -halfSize.x, -halfSize.y + 30.0f },
+        { +halfSize.x, +halfSize.y + 30.0f }
+    );
 
 
     m_State.SetOnModeChanged([this](AppState::Mode mode) {

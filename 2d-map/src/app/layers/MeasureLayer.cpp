@@ -2,7 +2,7 @@
 #include "GLFW/glfw3.h"
 #include <iostream>
 
-MeasureLayer::MeasureLayer(Input& input) : m_Input(input) {}
+MeasureLayer::MeasureLayer(Input& input) : m_Input(input), m_TextPosition({ 0.0f, 0.0f }) {}
 
 MeasureLayer::~MeasureLayer() {
 }
