@@ -156,7 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\app\Application.cpp" />
-    <ClCompile Include="src\app\layers\CompassCursorLayer .cpp" />
+    <ClCompile Include="src\app\layers\CompassCursorLayer.cpp" />
     <ClCompile Include="src\app\states\AppState.cpp" />
     <ClCompile Include="src\app\layers\MeasureLayer.cpp" />
     <ClCompile Include="src\app\layers\ModeLayer.cpp" />
