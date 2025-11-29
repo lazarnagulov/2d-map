@@ -62,3 +62,8 @@ void MeasureLayer::DrawLine(Renderer2D& renderer, const glm::vec2& p0, const glm
         );
     }
 }
+
+void MeasureLayer::OnKey(int key, int action) {
+    if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+        m_State.Reset();
+}

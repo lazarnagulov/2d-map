@@ -10,7 +10,7 @@ void MeasureState::RemovePoint(size_t index) {
 		RecalculateDistance();
 	}
 }
-void MeasureState::Clear() {
+void MeasureState::Reset() {
 	m_Points.clear();
 	m_TotalDistance = 0.0f;
 }
