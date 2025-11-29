@@ -77,6 +77,7 @@ void Application::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, width, height);
 
+    LoadMode();
     m_Renderer->BeginScene(m_Projection);
 
     m_Renderer->DrawQuad(
@@ -95,15 +96,7 @@ void Application::Render() {
 void Application::OnKey(int key, int action) {
     if (key == GLFW_KEY_R && action == GLFW_PRESS) {
         m_State.SwitchMode();
-
-        if (m_State.GetCurrentMode() == AppState::Mode::WALK) {
-            m_WalkLayer.SetEnabled(true);
-            m_MeasureLayer.SetEnabled(false);
-        }
-        else {
-            m_WalkLayer.SetEnabled(false);
-            m_MeasureLayer.SetEnabled(true);
-        }
+        LoadMode();
         return;
     }
 
@@ -112,6 +105,16 @@ void Application::OnKey(int key, int action) {
     });
 }
 
+void Application::LoadMode() {
+    if (m_State.GetCurrentMode() == AppState::Mode::WALK) {
+        m_WalkLayer.SetEnabled(true);
+        m_MeasureLayer.SetEnabled(false);
+    }
+    else {
+        m_WalkLayer.SetEnabled(false);
+        m_MeasureLayer.SetEnabled(true);
+    }
+}
 
 void Application::OnMouseMove(double x, double y) {
     DispatchToLayers([&](Layer& layer) {

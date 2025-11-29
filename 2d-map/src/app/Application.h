@@ -29,7 +29,7 @@ private:
 
 	template<typename Event>
 	void DispatchToLayers(Event&& eventCallback);
-
+	void LoadMode();
 private:
 	Input m_Input;
 	Window m_Window;

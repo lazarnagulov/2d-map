@@ -1,4 +1,5 @@
 #include "ModeLayer.h"
+#include "GLFW/glfw3.h"
 
 ModeLayer::ModeLayer(AppState& state) 
 	: m_State(state), 
@@ -19,8 +20,7 @@ void ModeLayer::OnRender(Renderer2D& renderer) {
 
 void ModeLayer::OnMouseButton(int button, int action, double x, double y) {
 	
-    if (button == /* left button */ 0 && action == /* press */ 1)
-    {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
         float halfW = m_Size.x * 0.5f;
         float halfH = m_Size.y * 0.5f;
 
