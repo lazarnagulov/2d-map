@@ -1,6 +1,6 @@
 #include "AppState.h"
 
-AppState::AppState() 
+AppState::AppState()
 	: m_CurrentMode(Mode::WALK) {}
 
 void AppState::SwitchMode() {

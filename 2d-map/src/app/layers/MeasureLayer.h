@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../core/Input.h"
-#include "../core/Layer.h"
-#include "../core/Renderer2D.h"
-#include "MeasureMode.h"
+#include "../../core/Input.h"
+#include "../../core/Layer.h"
+#include "../../core/Renderer2D.h"
+#include "../MeasureMode.h"
 
 class MeasureLayer : public Layer {
 public:

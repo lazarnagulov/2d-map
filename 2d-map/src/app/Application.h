@@ -1,8 +1,8 @@
 #pragma once
 
 #include "AppState.h"
-#include "MeasureLayer.h"
-#include "WalkLayer.h"
+#include "layers/MeasureLayer.h"
+#include "layers/WalkLayer.h"
 #include "../core/Window.h"
 #include "../core/LayerStack.h"
 

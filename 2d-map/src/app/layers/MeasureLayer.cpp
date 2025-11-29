@@ -5,7 +5,6 @@
 MeasureLayer::MeasureLayer(Input& input) : m_Input(input) {}
 
 MeasureLayer::~MeasureLayer() {
-    printf("Obrisao sam se");
 }
 
 void MeasureLayer::OnMouseButton(int button, int action, double x, double y) {

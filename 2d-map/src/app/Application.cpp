@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "../core/FrameLimiter.h"
+#include "./layers/ModeLayer.h"
 
 #include <memory>
 
@@ -14,6 +15,8 @@ Application::Application()
     m_MeasureLayer.SetEnabled(false);
     InitRenderer();
 
+    AddLayer<ModeLayer>(m_State);
+
     m_BackgroundTexture = std::make_unique<Texture>("./src/assets/textures/map.jpg");
 }
 
@@ -27,10 +30,8 @@ void Application::Run(float targetFps) {
     Renderer2D renderer(quadShader);
 
     FrameLimiter frameLimiter(targetFps);
-    while (!GetWindow().ShouldClose())
-    {
-        if (frameLimiter.ShouldRender())
-        {
+    while (!GetWindow().ShouldClose()) {
+        if (frameLimiter.ShouldRender()) {
             Render();
             Update(frameLimiter.GetDeltaTime());
         }
