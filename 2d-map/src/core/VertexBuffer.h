@@ -3,6 +3,7 @@
 class VertexBuffer {
 public:
 	VertexBuffer(const void* data, unsigned int size);
+	VertexBuffer(const void* data, unsigned int size, bool dynamic);
 	~VertexBuffer();
 
 	void Bind() const;

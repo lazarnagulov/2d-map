@@ -3555,6 +3555,8 @@
     <None Include="src\vendor\glm\glm\ext\vector_ulp.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="src\assets\shaders\text.frag" />
+    <None Include="src\assets\shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\vendor\glm\CMakeLists.txt" />
@@ -3568,5 +3570,11 @@
     <Image Include="src\assets\textures\walk-mode.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="src\assets\textures\measure-mode.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="src\assets\fonts\Vaseline Extra.ttf" />
   </ItemGroup>
 </Project>

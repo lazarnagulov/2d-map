@@ -29,8 +29,14 @@ public:
 private:
 	void InitRenderer();
 	void SyncLayersWithState();
+	void PrepareFrame(int width, int height);
+	void RenderWorld(int width, int height);
+	void RenderBackground();
+	void RenderUI(int width, int height);
+
 	template<typename Event>
 	void DispatchToLayers(Event&& eventCallback);
+
 private:
 	Input m_Input;
 	Window m_Window;
@@ -46,6 +52,7 @@ private:
 
 	std::unique_ptr<Renderer2D> m_Renderer;
 	std::shared_ptr<Shader> m_QuadShader;
+	std::shared_ptr<Shader> m_TextShader;
 
 	std::unique_ptr<Texture> m_BackgroundTexture;
 };

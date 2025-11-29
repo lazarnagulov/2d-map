@@ -2,7 +2,7 @@
 #include "GLFW/glfw3.h"
 #include <iostream>
 
-MeasureLayer::MeasureLayer(Input& input) : m_Input(input) {}
+MeasureLayer::MeasureLayer(Input& input) : m_Input(input), m_TextPosition({ 0.0f, 0.0f }) {}
 
 MeasureLayer::~MeasureLayer() {
 }
@@ -37,6 +37,14 @@ void MeasureLayer::OnRender(Renderer2D& renderer) {
         if (i > 0)
             DrawLine(renderer, points[i - 1], points[i]);
     }
+
+    auto totalDistance = m_State.GetTotalDistance();
+    renderer.DrawText(
+        "Total distance: " + std::to_string(totalDistance), 
+        m_TextPosition, 
+        0.5f, 
+        {0.0f, 0.0f, 0.0f, 1.0f}
+    );
 }
 
 void MeasureLayer::DrawLine(Renderer2D& renderer, const glm::vec2& p0, const glm::vec2& p1) {
@@ -53,4 +61,9 @@ void MeasureLayer::DrawLine(Renderer2D& renderer, const glm::vec2& p0, const glm
             { 1.0f, 0.5f, 0.0f, 1.0f }
         );
     }
+}
+
+void MeasureLayer::OnKey(int key, int action) {
+    if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+        m_State.Reset();
 }

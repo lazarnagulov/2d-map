@@ -8,7 +8,7 @@ public:
 
     void AddPoint(const glm::vec2& point);
     void RemovePoint(size_t index);
-    void Clear();
+    void Reset();
 
     inline const std::vector<glm::vec2>& GetPoints() const { return m_Points; }
     inline float GetTotalDistance() const { return m_TotalDistance; }
