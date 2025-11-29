@@ -66,6 +66,12 @@
     <ClCompile Include="src\app\MeasureLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\Renderer2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\IndexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\VertexBuffer.h">
@@ -1859,10 +1865,16 @@
     <ClInclude Include="src\app\MeasureLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\Renderer2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\IndexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\assets\shaders\texture.frag" />
-    <None Include="src\assets\shaders\texture.vert" />
+    <None Include="src\assets\shaders\quad.frag" />
+    <None Include="src\assets\shaders\quad.vert" />
     <None Include="src\vendor\glm\detail\func_common.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -3541,6 +3553,7 @@
   <ItemGroup>
     <Text Include="src\vendor\glm\CMakeLists.txt" />
     <Text Include="src\vendor\glm\glm\CMakeLists.txt" />
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\assets\textures\map.jpg">

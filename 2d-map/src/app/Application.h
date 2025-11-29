@@ -11,7 +11,9 @@ public:
 	Application();
 	~Application();
 
+	void Run(float targetFps);
 	void Update(float deltaTime);
+	void Render();
 	void OnKey(int key, int action) override;
 	void OnMouseMove(double x, double y) override;
 	void OnMouseButton(int button, int action) override;
@@ -21,6 +23,12 @@ public:
 
 	template<typename T, typename... Args>
 	T& AddLayer(Args&&... args);
+private:
+	void InitRenderer();
+	void UpdateProjection();
+
+	template<typename Event>
+	void DispatchToLayers(Event&& eventCallback);
 
 private:
 	Input m_Input;
@@ -29,4 +37,11 @@ private:
 	MeasureLayer& m_MeasureLayer;
 	WalkLayer& m_WalkLayer;
 	AppState m_State;
+
+	std::unique_ptr<Renderer2D> m_Renderer;
+	std::shared_ptr<Shader> m_QuadShader;
+	glm::mat4 m_Projection;
+	
+
+	std::unique_ptr<Texture> m_BackgroundTexture;
 };
