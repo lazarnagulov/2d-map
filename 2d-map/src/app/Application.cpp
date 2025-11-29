@@ -18,10 +18,14 @@ Application::Application()
 
     m_State.SetOnModeChanged([this](AppState::Mode mode) {
         SyncLayersWithState();
-        if(mode == AppState::Mode::MEASURE)
+        if (mode == AppState::Mode::MEASURE) {
             m_Camera.SetZoom(1.0f);
-        else 
+            m_Camera.SetPosition({ 0.0f,0.0f });
+        }
+        else {
             m_Camera.SetZoom(1.5f);
+            m_Camera.SetPosition(m_WalkLayer.GetState().GetPosition());
+        }
     });
 
     SyncLayersWithState();
