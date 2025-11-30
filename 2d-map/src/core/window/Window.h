@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-#include "Input.h"
+#include "../input/Input.h"
 
 class IEventListener {
 public:

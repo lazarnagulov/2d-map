@@ -6,9 +6,9 @@
 #include "layers/ModeLayer.h"
 #include "layers/CompassCursorLayer.h"
 
-#include "../core/Camera.h"
-#include "../core/Window.h"
-#include "../core/LayerStack.h"
+#include "../core/window/Camera.h"
+#include "../core/window/Window.h"
+#include "../core/layers/LayerStack.h"
 
 class Application : public IEventListener {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Renderer2D.h"
+#include "../rendering/Renderer2D.h"
 
 class Layer {
 public:
