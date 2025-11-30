@@ -61,7 +61,6 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, cons
     m_QuadShader->SetUniform1i("uTex", 1);
 
     texture.Bind(0);
-    glBindTexture(GL_TEXTURE_2D, texture.GetId());
 
     m_QuadVA->Bind();
     m_QuadIB->Bind();
@@ -253,6 +252,7 @@ void Renderer2D::DrawText(const std::string& txt, glm::vec2 pos, float scale, co
             { xpos + w, ypos,       1.0f, 1.0f },
             { xpos + w, ypos + h,   1.0f, 0.0f }
         };
+
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureId);
 
