@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../core/Layer.h"
-#include "../../core/Input.h"
-#include "../../core/Texture.h"
-#include "../../core/Renderer2D.h"
-#include "../../core/Camera.h"
+#include "../../core/layers/Layer.h"
+#include "../../core/input/Input.h"
+#include "../../core/rendering/Texture.h"
+#include "../../core/rendering/Renderer2D.h"
+#include "../../core/window/Camera.h"
 #include "../states/WalkState.h"
 
 class WalkLayer : public Layer {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../core/Layer.h"
+#include "../../core/layers/Layer.h"
 #include "../states/AppState.h"
 
 class ModeLayer : public Layer {

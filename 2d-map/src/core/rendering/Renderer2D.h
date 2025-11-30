@@ -4,10 +4,10 @@
 #include <string>
 #include <unordered_map>
 #include "Shader.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexBufferLayout.h"
+#include "buffers/VertexArray.h"
+#include "buffers/VertexBuffer.h"
+#include "buffers/IndexBuffer.h"
+#include "buffers/VertexBufferLayout.h"
 #include "Texture.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
