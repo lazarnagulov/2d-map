@@ -64,6 +64,12 @@ void Application::Run(float targetFps) {
     while (!GetWindow().ShouldClose()) {
         if (frameLimiter.ShouldRender()) {
             Render();
+            m_Renderer->DrawText(
+                std::to_string(frameLimiter.GetFps()) + " fps", 
+                {50.0f, m_Window.GetHeight() - 25.0f}, 
+                0.5f, 
+                {0.0f, 0.0f, 0.0f, 1.0f}
+            );
             Update(frameLimiter.GetDeltaTime());
         }
     }
@@ -133,12 +139,7 @@ void Application::RenderUI(int width, int height) {
         -1.0f, 1.0f);
 
     m_Renderer->BeginScene(screenOrtho);
-
-    m_Renderer->DrawText(
-        "Lazar Nagulov SV61/2022",
-        { 50.0f, height - 100.0f },
-        1.0f,
-        { 0.0f, 0.8f, 1.0f, 1.0f });
+    m_Renderer->DrawText("Lazar Nagulov SV61/2022", { 50.0f, height - 100.0f }, 1.0f, { 0.0f, 0.8f, 1.0f, 1.0f });
 
     if (m_WalkLayer.IsEnabled()) {
         m_Renderer->DrawText(

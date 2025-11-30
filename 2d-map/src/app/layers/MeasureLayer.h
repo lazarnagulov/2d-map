@@ -8,7 +8,6 @@
 class MeasureLayer : public Layer {
 public:
 	MeasureLayer(Input& input);
-	~MeasureLayer();
 
 	void OnMouseButton(int button, int action, double x, double y) override;
 	void OnKey(int key, int action) override;

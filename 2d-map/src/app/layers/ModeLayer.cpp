@@ -9,7 +9,6 @@ ModeLayer::ModeLayer(AppState& state)
 	  m_Size({ 200.0f, 200.0f }) {}
 
 void ModeLayer::OnRender(Renderer2D& renderer) {
-	
 	renderer.DrawQuad(
 		m_Position,
 		m_Size,
@@ -17,9 +16,7 @@ void ModeLayer::OnRender(Renderer2D& renderer) {
 	);
 }
 
-
 void ModeLayer::OnMouseButton(int button, int action, double x, double y) {
-	
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
         float halfW = m_Size.x * 0.5f;
         float halfH = m_Size.y * 0.5f;
@@ -33,5 +30,4 @@ void ModeLayer::OnMouseButton(int button, int action, double x, double y) {
         if (inside) 
             m_State.SwitchMode();
     }
-
 }
