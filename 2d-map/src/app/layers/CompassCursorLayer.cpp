@@ -15,23 +15,13 @@ void CompassCursorLayer::OnRender(Renderer2D& renderer) {
 
     glm::vec2 cursorPos = { mouseX, mouseY };
     glm::vec2 compassSize = { 48.0f, 48.0f };
-
-    renderer.DrawQuad(
-        cursorPos,
-        compassSize,
-        m_CompassBase
-    );
+    renderer.DrawQuad(cursorPos, compassSize, m_CompassBase);
 
     glm::vec2 dir = glm::normalize(m_Target - cursorPos);
 
     float needleLength = 20.0f;
     glm::vec2 needleEnd = cursorPos + dir * needleLength;
 
-    renderer.DrawLine(
-        cursorPos,
-        needleEnd,
-        3.0f,
-        { 1.0f, 0.0f, 0.0f, 1.0f }
-    );
+    renderer.DrawLine(cursorPos, needleEnd, 3.0f, { 1.0f, 0.0f, 0.0f, 1.0f });
 }
 

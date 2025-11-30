@@ -4,8 +4,7 @@
 
 MeasureLayer::MeasureLayer(Input& input) : m_Input(input), m_TextPosition({ 0.0f, 0.0f }) {}
 
-MeasureLayer::~MeasureLayer() {
-}
+MeasureLayer::~MeasureLayer() {}
 
 void MeasureLayer::OnMouseButton(int button, int action, double x, double y) {
     glm::vec2 point = { static_cast<float>(x), static_cast<float>(y) };

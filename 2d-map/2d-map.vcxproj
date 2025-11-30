@@ -1906,6 +1906,7 @@
     <Text Include="src\vendor\glm\glm\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="src\assets\textures\compass.png" />
     <Image Include="src\assets\textures\map-pin.png" />
     <Image Include="src\assets\textures\map.jpg" />
     <Image Include="src\assets\textures\measure-mode.png" />
