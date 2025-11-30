@@ -186,6 +186,7 @@
     <ClInclude Include="src\app\states\MeasureState.h" />
     <ClInclude Include="src\app\layers\WalkLayer.h" />
     <ClInclude Include="src\app\states\WalkState.h" />
+    <ClInclude Include="src\app\systems\LayerManager.h" />
     <ClInclude Include="src\core\window\Camera.h" />
     <ClInclude Include="src\core\utils\FrameLimiter.h" />
     <ClInclude Include="src\core\rendering\buffers\IndexBuffer.h" />

@@ -8,10 +8,11 @@
 Application::Application()
     : m_Input(),
     m_Window(m_Input, *this),
-    m_WalkLayer(AddLayer<WalkLayer>(m_Input, m_Camera)),
-    m_MeasureLayer(AddLayer<MeasureLayer>(m_Input)),
-    m_ModeLayer(AddLayer<ModeLayer>(m_State)),
-    m_CursorLayer(AddLayer<CompassCursorLayer>(m_Input,  glm::vec2(0.0f, m_Window.GetHeight()))),
+    m_LayerManager(m_LayerStack),
+    m_WalkLayer(m_LayerManager.AddLayer<WalkLayer>(m_Input, m_Camera)),
+    m_MeasureLayer(m_LayerManager.AddLayer<MeasureLayer>(m_Input)),
+    m_ModeLayer(m_LayerManager.AddLayer<ModeLayer>(m_State)),
+    m_CursorLayer(m_LayerManager.AddLayer<CompassCursorLayer>(m_Input,  glm::vec2(0.0f, m_Window.GetHeight()))),
     m_Camera({ 0,0 }, 1.0f)
 {
     InitRenderer();
@@ -101,11 +102,9 @@ void Application::RenderWorld(int width, int height) {
     m_Renderer->BeginScene(m_Camera.GetViewProjection(width, height));
 
     RenderBackground();
-
-    DispatchToLayers([&](Layer& layer) {
-        if (&layer != &m_ModeLayer && &layer != &m_MeasureLayer && &layer != &m_CursorLayer)
-            layer.OnRender(*m_Renderer);
-        });
+    
+    if(m_WalkLayer.IsEnabled())
+        m_WalkLayer.OnRender(*m_Renderer);
 
     m_Renderer->EndScene();
 }
@@ -180,14 +179,6 @@ void Application::OnMouseButton(int button, int action) {
     DispatchToLayers([&](Layer& layer) {
         layer.OnMouseButton(button, action, x, y);
     });
-}
-
-template<typename T, typename... Args>
-T& Application::AddLayer(Args&&... args) {
-    auto layer = std::make_unique<T>(std::forward<Args>(args)...);
-    T& ref = *layer;
-    m_LayerStack.PushLayer(std::move(layer));
-    return ref;
 }
 
 template<typename Event>

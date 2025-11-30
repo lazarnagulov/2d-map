@@ -5,6 +5,7 @@
 #include "layers/WalkLayer.h"
 #include "layers/ModeLayer.h"
 #include "layers/CompassCursorLayer.h"
+#include "systems/LayerManager.h"
 
 #include "../core/window/Camera.h"
 #include "../core/window/Window.h"
@@ -24,9 +25,6 @@ public:
 
 	inline const Window& GetWindow() const { return m_Window; }
 	inline Window& GetWindow() { return m_Window; }
-
-	template<typename T, typename... Args>
-	T& AddLayer(Args&&... args);
 private:
 	void InitRenderer();
 	void SyncLayersWithState();
@@ -42,6 +40,7 @@ private:
 	Input m_Input;
 	Window m_Window;
 	LayerStack m_LayerStack;
+	LayerManager m_LayerManager;
 	
 	Camera m_Camera;
 
