@@ -19,9 +19,24 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li><a href="#installation">Intallation</a></li>
+    <li><a href="#installation">Installation</a></li>
     <li><a href="#controls">Controls</a></li>
-    <li><a href="#controls">Screenshots</a></li>
+    <li>
+      <a href="#configuration">Configuration</a>
+      <ul>
+        <li><a href="#adjusting-settings">Adjusting Settings</a></li>
+        <li><a href="#custom-map">Custom Map</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#development">Development</a>
+      <ul>
+        <li><a href="#adding-new-layers">Adding New Layers</a></li>
+        <li><a href="#extending-the-renderer">Extending the Renderer</a></li>
+      </ul>
+    </li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#screenshots">Screenshots</a></li>
   </ol>
 </details>
 
@@ -33,8 +48,8 @@ This project is a 2D C++/OpenGL application designed for navigation and distance
 
 The main objective of the program is to allow the user to move across a large high-resolution map and measure real-time traversed distance. The application features two interactive modes:
 
-1. *Walking Mode* — the user moves across the map by controlling direction with WASD, while a navigation pin remains fixed at the center of the screen and the map scrolls beneath it. Movement distance is continuously tracked and displayed on screen.
-1. *Measurement Mode* — the full map becomes visible, and the user can place multiple points with mouse clicks. Consecutive points form line segments, whose lengths accumulate into a total measured distance. Points can be removed dynamically, updating the total length in real time.
+1. *Walking Mode* - the user moves across the map by controlling direction with WASD, while a navigation pin remains fixed at the center of the screen and the map scrolls beneath it. Movement distance is continuously tracked and displayed on screen.
+1. *Measurement Mode* - the full map becomes visible, and the user can place multiple points with mouse clicks. Consecutive points form line segments, whose lengths accumulate into a total measured distance. Points can be removed dynamically, updating the total length in real time.
 
 Mode switching is done via keyboard (R) or UI icons (a walker symbol and a ruler symbol depending on active state).
 The application keeps state between modes - meaning the current position, traversal distance or placed measurement points remain preserved on swap.
@@ -110,6 +125,65 @@ Cursor is visually represented as a **compass**, with the red needle pointing to
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Configuration
+
+### Adjusting Settings
+
+You can modify various parameters in `Application.cpp`:
+```cpp
+// Frame rate
+app.Run(60.0f);  // Target 60 FPS
+
+// Camera zoom limits (in WalkLayer.h)
+m_MinZoom = 0.5f;
+m_MaxZoom = 3.0f;
+
+// Movement speed (in WalkState.h)
+m_MoveSpeed = 200.0f;  // pixels per second
+```
+
+### Custom Map
+
+To use your own map image:
+1. Replace `./src/assets/textures/map.jpg` with your image
+2. Recommended resolution: 2048x2048 or higher for best quality
+3. Supported formats: JPG, PNG (via stb_image)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Development
+
+### Adding New Layers
+
+To create a custom layer:
+```cpp
+// 1. Create your layer class
+class MyLayer : public Layer {
+public:
+    void OnUpdate(float dt) override { /* ... */ }
+    void OnRender(Renderer2D& renderer) override { /* ... */ }
+    void OnKey(int key, int action) override { /* ... */ }
+};
+
+// 2. Add to Application constructor
+m_MyLayer(m_LayerManager.AddLayer<MyLayer>(/* args */))
+```
+
+### Extending the Renderer
+
+The `Renderer2D` supports:
+- `DrawQuad()` — Textured or colored quads
+- `DrawText()` — Dynamic text rendering
+- `BeginScene()` / `EndScene()` — Render pass management
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Acknowledgments
+
+* Font: Vaseline Extra
+* Built as part of Computer Graphics course
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Screenshots
 
