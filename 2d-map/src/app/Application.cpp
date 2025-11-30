@@ -19,7 +19,7 @@ Application::Application()
     InitRenderer();
     m_Window.DisableSystemCursor();
     m_BackgroundTexture = std::make_unique<Texture>("./src/assets/textures/map.jpg");
-    m_MeasureLayer.SetTextPosition({ 50.0f, m_Window.GetHeight() - 50.0f });
+    m_MeasureLayer.SetTextPosition({ 10.0f, m_Window.GetHeight() - 50.0f });
     glm::vec2 halfSize = {
         m_BackgroundTexture->GetWidth() * 0.5f,
         m_BackgroundTexture->GetHeight() * 0.5f
@@ -66,7 +66,7 @@ void Application::Run(float targetFps) {
             Render();
             m_Renderer->DrawText(
                 std::to_string(frameLimiter.GetFps()) + " fps", 
-                {50.0f, m_Window.GetHeight() - 25.0f}, 
+                {10.0f, m_Window.GetHeight() - 25.0f}, 
                 0.5f, 
                 {0.0f, 0.0f, 0.0f, 1.0f}
             );
@@ -139,12 +139,12 @@ void Application::RenderUI(int width, int height) {
         -1.0f, 1.0f);
 
     m_Renderer->BeginScene(screenOrtho);
-    m_Renderer->DrawText("Lazar Nagulov SV61/2022", { 50.0f, height - 100.0f }, 1.0f, { 0.0f, 0.8f, 1.0f, 1.0f });
+    m_Renderer->DrawText("Lazar Nagulov SV61/2022", { 10.0f, height - 100.0f }, 0.75f, { 0.0f, 0.8f, 1.0f, 0.5f });
 
     if (m_WalkLayer.IsEnabled()) {
         m_Renderer->DrawText(
             "Total distance: " + std::to_string(m_WalkLayer.GetState().GetWalkedDistance()),
-            { 50.0f, height - 50.0f },
+            { 10.0f, height - 50.0f },
             0.5f,
             { 0.0f, 0.0f, 0.0f, 1.0f });
     }
