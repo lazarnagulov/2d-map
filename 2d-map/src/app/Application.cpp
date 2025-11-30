@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "../core/FrameLimiter.h"
+#include "../core/utils/FrameLimiter.h"
 #include "./layers/ModeLayer.h"
 
 #include <memory>
@@ -7,11 +7,13 @@
 
 Application::Application()
     : m_Input(),
-    m_Window(m_Input, *this),
-    m_WalkLayer(AddLayer<WalkLayer>(m_Input, m_Camera)),
-    m_MeasureLayer(AddLayer<MeasureLayer>(m_Input)),
-    m_ModeLayer(AddLayer<ModeLayer>(m_State)),
-    m_CursorLayer(AddLayer<CompassCursorLayer>(m_Input,  glm::vec2(0.0f, m_Window.GetHeight()))),
+    m_Window(m_Input, m_EventDispatcher),
+    m_EventDispatcher(m_LayerStack, m_Input),
+    m_LayerManager(m_LayerStack),
+    m_WalkLayer(m_LayerManager.AddLayer<WalkLayer>(m_Input, m_Camera)),
+    m_MeasureLayer(m_LayerManager.AddLayer<MeasureLayer>(m_Input)),
+    m_ModeLayer(m_LayerManager.AddLayer<ModeLayer>(m_State)),
+    m_CursorLayer(m_LayerManager.AddLayer<CompassCursorLayer>(m_Input,  glm::vec2(0.0f, m_Window.GetHeight()))),
     m_Camera({ 0,0 }, 1.0f)
 {
     InitRenderer();
@@ -23,11 +25,20 @@ Application::Application()
         m_BackgroundTexture->GetHeight() * 0.5f
     };
 
+    m_EventDispatcher.SetAppKeyHandler([this](int key, int action) {
+        if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+            m_State.SwitchMode();
+            return true; 
+        }
+        return false;
+    });
+
+    m_EventDispatcher.SetWindowHeight(m_Window.GetHeight());
+
     m_WalkLayer.GetState().SetBounds(
         { -halfSize.x, -halfSize.y + 30.0f },
         { +halfSize.x, +halfSize.y + 30.0f }
     );
-
 
     m_State.SetOnModeChanged([this](AppState::Mode mode) {
         SyncLayersWithState();
@@ -53,6 +64,12 @@ void Application::Run(float targetFps) {
     while (!GetWindow().ShouldClose()) {
         if (frameLimiter.ShouldRender()) {
             Render();
+            m_Renderer->DrawText(
+                std::to_string(frameLimiter.GetFps()) + " fps", 
+                {50.0f, m_Window.GetHeight() - 25.0f}, 
+                0.5f, 
+                {0.0f, 0.0f, 0.0f, 1.0f}
+            );
             Update(frameLimiter.GetDeltaTime());
         }
     }
@@ -77,7 +94,7 @@ void Application::InitRenderer() {
 void Application::Update(float deltaTime) {
     m_Window.Update();
 
-    DispatchToLayers([&](Layer& layer) {
+    m_EventDispatcher.DispatchToLayers([&](Layer& layer) {
         layer.OnUpdate(deltaTime);
     });
 
@@ -101,11 +118,9 @@ void Application::RenderWorld(int width, int height) {
     m_Renderer->BeginScene(m_Camera.GetViewProjection(width, height));
 
     RenderBackground();
-
-    DispatchToLayers([&](Layer& layer) {
-        if (&layer != &m_ModeLayer && &layer != &m_MeasureLayer && &layer != &m_CursorLayer)
-            layer.OnRender(*m_Renderer);
-        });
+    
+    if(m_WalkLayer.IsEnabled())
+        m_WalkLayer.OnRender(*m_Renderer);
 
     m_Renderer->EndScene();
 }
@@ -124,12 +139,7 @@ void Application::RenderUI(int width, int height) {
         -1.0f, 1.0f);
 
     m_Renderer->BeginScene(screenOrtho);
-
-    m_Renderer->DrawText(
-        "Lazar Nagulov SV61/2022",
-        { 50.0f, height - 100.0f },
-        1.0f,
-        { 0.0f, 0.8f, 1.0f, 1.0f });
+    m_Renderer->DrawText("Lazar Nagulov SV61/2022", { 50.0f, height - 100.0f }, 1.0f, { 0.0f, 0.8f, 1.0f, 1.0f });
 
     if (m_WalkLayer.IsEnabled()) {
         m_Renderer->DrawText(
@@ -139,7 +149,7 @@ void Application::RenderUI(int width, int height) {
             { 0.0f, 0.0f, 0.0f, 1.0f });
     }
     
-    DispatchToLayers([&](Layer& layer) {
+    m_EventDispatcher.DispatchToLayers([&](Layer& layer) {
         if (&layer != &m_WalkLayer)
             layer.OnRender(*m_Renderer);
     });
@@ -154,48 +164,4 @@ void Application::Render() {
     PrepareFrame(width, height);
     RenderWorld(width, height);
     RenderUI(width, height);
-}
-
-void Application::OnKey(int key, int action) {
-    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-        m_State.SwitchMode();
-        return;
-    }
-
-    DispatchToLayers([&](Layer& layer) {
-        layer.OnKey(key, action);
-    });
-}
-
-void Application::OnMouseMove(double x, double y) {
-    DispatchToLayers([&](Layer& layer) {
-        layer.OnMouseMove(x, y);
-    });
-}
-
-void Application::OnMouseButton(int button, int action) {
-    double x = m_Input.GetMouseX();
-    double y = m_Window.GetHeight() - m_Input.GetMouseY();
-
-    DispatchToLayers([&](Layer& layer) {
-        layer.OnMouseButton(button, action, x, y);
-    });
-}
-
-template<typename T, typename... Args>
-T& Application::AddLayer(Args&&... args) {
-    auto layer = std::make_unique<T>(std::forward<Args>(args)...);
-    T& ref = *layer;
-    m_LayerStack.PushLayer(std::move(layer));
-    return ref;
-}
-
-template<typename Event>
-void Application::DispatchToLayers(Event&& eventCallback) {
-    auto& layers = m_LayerStack.GetLayers();
-    for (auto it = layers.rbegin(); it != layers.rend(); ++it) {
-        if (!(*it)->IsEnabled())
-            continue;
-        eventCallback(**it);
-    }
 }

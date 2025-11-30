@@ -34,11 +34,10 @@ void WalkLayer::OnRender(Renderer2D& renderer) {
 }
 
 void WalkLayer::OnKey(int key, int action) {
-    if (key == GLFW_KEY_0 && action == GLFW_PRESS) 
+    if (key == GLFW_KEY_0 && action == GLFW_PRESS) {
         m_Camera.SetZoom(INITIAL_ZOOM);
-    
-    if (key == GLFW_KEY_0 && action == GLFW_PRESS)
         m_State.Reset();
+    }
 }
 
 void WalkLayer::UpdateCameraZoom(float dt) {

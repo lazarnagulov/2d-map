@@ -16,7 +16,6 @@ void ModeLayer::OnRender(Renderer2D& renderer) {
 	);
 }
 
-
 void ModeLayer::OnMouseButton(int button, int action, double x, double y) {
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
         float halfW = m_Size.x * 0.5f;

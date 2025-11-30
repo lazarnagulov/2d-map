@@ -4,29 +4,18 @@
 
 MeasureLayer::MeasureLayer(Input& input) : m_Input(input), m_TextPosition({ 0.0f, 0.0f }) {}
 
-MeasureLayer::~MeasureLayer() {}
 
 void MeasureLayer::OnMouseButton(int button, int action, double x, double y) {
     glm::vec2 point = { static_cast<float>(x), static_cast<float>(y) };
 
-    if (action != GLFW_PRESS)
-        return; 
-
-    if (button == GLFW_MOUSE_BUTTON_LEFT) {
-        int pos = m_State.FindPointNear(point);
-        if (pos < 0)
-            m_State.AddPoint(point);
-    }
-    else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-        int pos = m_State.FindPointNear(point);
-        if (pos >= 0)
-            m_State.RemovePoint(pos);
+    if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT) {
+        int position = m_State.FindPointNear(point);
+        position < 0 ? m_State.AddPoint(point) : m_State.RemovePoint(position);
     }
 }
 
 void MeasureLayer::OnRender(Renderer2D& renderer) {
     const auto& points = m_State.GetPoints();
-    const float thickness = 5.0f;
     
     for (size_t i = 0; i < points.size(); i++) {
         const glm::vec2& p = points[i];

@@ -4,10 +4,7 @@
 CompassCursorLayer::CompassCursorLayer(Input& input, const glm::vec2& target)
     : m_CompassBase("./src/assets/textures/compass.png"),
       m_Input(input),
-      m_Target(target)
-{
-    
-}
+      m_Target(target) {}
 
 void CompassCursorLayer::OnRender(Renderer2D& renderer) {
     float mouseX = m_Input.GetMouseX();

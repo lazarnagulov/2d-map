@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../core/Layer.h"
-#include "../../core/Input.h"
+#include "../../core/layers/Layer.h"
+#include "../../core/input/Input.h"
 
 class CompassCursorLayer : public Layer {
 public:

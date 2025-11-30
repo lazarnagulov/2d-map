@@ -1,14 +1,13 @@
 #pragma once
 
-#include "../../core/Input.h"
-#include "../../core/Layer.h"
-#include "../../core/Renderer2D.h"
+#include "../../core/input/Input.h"
+#include "../../core/layers/Layer.h"
+#include "../../core/rendering/Renderer2D.h"
 #include "../states/MeasureState.h"
 
 class MeasureLayer : public Layer {
 public:
 	MeasureLayer(Input& input);
-	~MeasureLayer();
 
 	void OnMouseButton(int button, int action, double x, double y) override;
 	void OnKey(int key, int action) override;
