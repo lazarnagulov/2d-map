@@ -7,7 +7,8 @@
 
 Application::Application()
     : m_Input(),
-    m_Window(m_Input, *this),
+    m_Window(m_Input, m_EventDispatcher),
+    m_EventDispatcher(m_LayerStack, m_Input),
     m_LayerManager(m_LayerStack),
     m_WalkLayer(m_LayerManager.AddLayer<WalkLayer>(m_Input, m_Camera)),
     m_MeasureLayer(m_LayerManager.AddLayer<MeasureLayer>(m_Input)),
@@ -24,11 +25,20 @@ Application::Application()
         m_BackgroundTexture->GetHeight() * 0.5f
     };
 
+    m_EventDispatcher.SetAppKeyHandler([this](int key, int action) {
+        if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+            m_State.SwitchMode();
+            return true; 
+        }
+        return false;
+    });
+
+    m_EventDispatcher.SetWindowHeight(m_Window.GetHeight());
+
     m_WalkLayer.GetState().SetBounds(
         { -halfSize.x, -halfSize.y + 30.0f },
         { +halfSize.x, +halfSize.y + 30.0f }
     );
-
 
     m_State.SetOnModeChanged([this](AppState::Mode mode) {
         SyncLayersWithState();
@@ -78,7 +88,7 @@ void Application::InitRenderer() {
 void Application::Update(float deltaTime) {
     m_Window.Update();
 
-    DispatchToLayers([&](Layer& layer) {
+    m_EventDispatcher.DispatchToLayers([&](Layer& layer) {
         layer.OnUpdate(deltaTime);
     });
 
@@ -138,7 +148,7 @@ void Application::RenderUI(int width, int height) {
             { 0.0f, 0.0f, 0.0f, 1.0f });
     }
     
-    DispatchToLayers([&](Layer& layer) {
+    m_EventDispatcher.DispatchToLayers([&](Layer& layer) {
         if (&layer != &m_WalkLayer)
             layer.OnRender(*m_Renderer);
     });
@@ -153,40 +163,4 @@ void Application::Render() {
     PrepareFrame(width, height);
     RenderWorld(width, height);
     RenderUI(width, height);
-}
-
-void Application::OnKey(int key, int action) {
-    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-        m_State.SwitchMode();
-        return;
-    }
-
-    DispatchToLayers([&](Layer& layer) {
-        layer.OnKey(key, action);
-    });
-}
-
-void Application::OnMouseMove(double x, double y) {
-    DispatchToLayers([&](Layer& layer) {
-        layer.OnMouseMove(x, y);
-    });
-}
-
-void Application::OnMouseButton(int button, int action) {
-    double x = m_Input.GetMouseX();
-    double y = m_Window.GetHeight() - m_Input.GetMouseY();
-
-    DispatchToLayers([&](Layer& layer) {
-        layer.OnMouseButton(button, action, x, y);
-    });
-}
-
-template<typename Event>
-void Application::DispatchToLayers(Event&& eventCallback) {
-    auto& layers = m_LayerStack.GetLayers();
-    for (auto it = layers.rbegin(); it != layers.rend(); ++it) {
-        if (!(*it)->IsEnabled())
-            continue;
-        eventCallback(**it);
-    }
 }

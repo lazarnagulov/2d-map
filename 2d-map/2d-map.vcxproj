@@ -163,6 +163,7 @@
     <ClCompile Include="src\app\states\MeasureState.cpp" />
     <ClCompile Include="src\app\layers\WalkLayer.cpp" />
     <ClCompile Include="src\app\states\WalkState.cpp" />
+    <ClCompile Include="src\app\systems\EventDispatcher.cpp" />
     <ClCompile Include="src\core\window\Camera.cpp" />
     <ClCompile Include="src\core\utils\FrameLimiter.cpp" />
     <ClCompile Include="src\core\rendering\buffers\IndexBuffer.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="src\app\states\MeasureState.h" />
     <ClInclude Include="src\app\layers\WalkLayer.h" />
     <ClInclude Include="src\app\states\WalkState.h" />
+    <ClInclude Include="src\app\systems\EventDispatcher.h" />
     <ClInclude Include="src\app\systems\LayerManager.h" />
     <ClInclude Include="src\core\window\Camera.h" />
     <ClInclude Include="src\core\utils\FrameLimiter.h" />
@@ -199,6 +201,7 @@
     <ClInclude Include="src\core\rendering\buffers\VertexArray.h" />
     <ClInclude Include="src\core\rendering\buffers\VertexBuffer.h" />
     <ClInclude Include="src\core\rendering\buffers\VertexBufferLayout.h" />
+    <ClInclude Include="src\core\window\IEventListener.h" />
     <ClInclude Include="src\core\window\Window.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />
