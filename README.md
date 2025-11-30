@@ -19,8 +19,15 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
+    <li><a href="#screenshots">Screenshots</a></li> 
     <li><a href="#installation">Installation</a></li>
     <li><a href="#controls">Controls</a></li>
+    <li>
+      <a href="#project-structure">Project Structure</a>
+      <ul>
+        <li><a href="#key-design-patterns">Key Design Patterns</a></li>
+      </ul>
+    </li>
     <li>
       <a href="#configuration">Configuration</a>
       <ul>
@@ -36,7 +43,6 @@
       </ul>
     </li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
-    <li><a href="#screenshots">Screenshots</a></li>
   </ol>
 </details>
 
@@ -54,6 +60,8 @@ The main objective of the program is to allow the user to move across a large hi
 Mode switching is done via keyboard (R) or UI icons (a walker symbol and a ruler symbol depending on active state).
 The application keeps state between modes - meaning the current position, traversal distance or placed measurement points remain preserved on swap.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Built with
 
 This project is implemented entirely in C++ and uses a modern OpenGL programmable pipeline along with several supporting libraries for rendering, input, and texture handling.
@@ -67,11 +75,20 @@ This project is implemented entirely in C++ and uses a modern OpenGL programmabl
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Installation
+## Screenshots
+
+| Preview | Description |
+|--------|-------------|
+| ![walking_mode](./Images/walk-mode.png) | Walking mode with map scrolling under a centered pin |
+| ![measurement_mode](./Images/measure-mode.png) | Full-map measurement mode with connected distance points |
+| ![cursor](Images/compass.png) | Custom compass cursor with red needle facing top-left |
+| ![signature](Images/signature.png) | Semi-transparent label containing student name and index |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Installation
 
 Follow the steps below to build and run the project locally.
-
----
 
 #### 1. Clone the repository
 
@@ -122,6 +139,37 @@ cmake --build . --config Release
 | Exit application | **ESC** |
 
 Cursor is visually represented as a **compass**, with the red needle pointing toward the **upper-left corner**.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Project Structure
+
+The project follows a layered architecture with clear separation of concerns:
+```
+2d-map/
+├── src/
+│   ├── core/              # Engine-level components
+│   │   ├── rendering/     # Renderer, shaders, textures, buffers
+│   │   ├── window/        # Window management, camera
+│   │   ├── input/         # Input handling
+│   │   ├── layers/        # Layer system (base classes)
+│   │   └── utils/         # Frame limiter, utilities
+│   ├── app/               # Application-specific code
+│   │   ├── systems/       # EventDispatcher, LayerManager
+│   │   ├── layers/        # WalkLayer, MeasureLayer, ModeLayer, CompassCursorLayer
+│   │   └── states/        # AppState, WalkState
+│   └── assets/
+│       ├── shaders/       # GLSL vertex/fragment shaders
+│       ├── textures/      # Map image, icons, cursor
+│       └── fonts/         # TrueType fonts for text rendering
+```
+
+### Key Design Patterns
+
+- **Layer System**: Modular UI/logic components that can be enabled/disabled
+- **Event Dispatching**: Centralized input routing to active layers
+- **State Management**: Separate state objects for persistent data
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -184,18 +232,6 @@ The `Renderer2D` supports:
 * Built as part of Computer Graphics course
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Screenshots
-
-| Preview | Description |
-|--------|-------------|
-| ![walking_mode](./Images/walk-mode.png) | Walking mode with map scrolling under a centered pin |
-| ![measurement_mode](./Images/measure-mode.png) | Full-map measurement mode with connected distance points |
-| ![cursor](Images/compass.png) | Custom compass cursor with red needle facing top-left |
-| ![signature](Images/signature.png) | Semi-transparent label containing student name and index |
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 [last-commit-shield]: https://img.shields.io/github/last-commit/lazarnagulov/2d-map?branch=main&style=for-the-badge
 [last-commit-url]: https://github.com/lazarnagulov/2d-map/commits/main
