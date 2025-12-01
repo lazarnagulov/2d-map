@@ -21,8 +21,8 @@ Application::Application()
     m_BackgroundTexture = std::make_unique<Texture>("./src/assets/textures/map.jpg");
     m_MeasureLayer.SetTextPosition({ 10.0f, m_Window.GetHeight() - 50.0f });
     glm::vec2 halfSize = {
-        m_BackgroundTexture->GetWidth() * 0.5f,
-        m_BackgroundTexture->GetHeight() * 0.5f
+        m_Window.GetWidth() * 0.5f,
+        m_Window.GetHeight() * 0.5f
     };
 
     m_EventDispatcher.SetAppKeyHandler([this](int key, int action) {
@@ -126,8 +126,8 @@ void Application::RenderWorld(int width, int height) {
 }
 
 void Application::RenderBackground() {
-    const float bgWidth = static_cast<float>(m_BackgroundTexture->GetWidth());
-    const float bgHeight = static_cast<float>(m_BackgroundTexture->GetHeight());
+    const float bgWidth = static_cast<float>(m_Window.GetWidth());
+    const float bgHeight = static_cast<float>(m_Window.GetHeight());
 
     m_Renderer->DrawQuad({ 0.0f, 0.0f }, { bgWidth, bgHeight }, *m_BackgroundTexture);
 }
